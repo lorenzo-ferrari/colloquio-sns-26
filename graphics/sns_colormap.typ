@@ -1,0 +1,10 @@
+// https://www.sns.it/it/guida/identita-visiva
+#let ottanio_sns = rgb("00728D")
+#let dark_grey_sns = rgb("4D4E4F")
+#let white_sns = rgb("FFFFFF")
+#let dark_blue_sns = rgb("183F56")
+#let light_grey_sns = rgb("C8CAD4")
+#let pale_blue_sns = rgb("9CD7F3")
+#let red_sns = rgb("AB3502")
+#let purple_sns = rgb("4B70FF")
+#let orange_sns = rgb("E69426")

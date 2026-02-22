@@ -1,5 +1,7 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 
+#import "sns_colormap.typ": *
+
 #figure(
   canvas(length: 1.1cm, {
     import draw: *
@@ -61,7 +63,8 @@
       ("28", "9")
     )
 
-    let clique = ("6", "7", "8", "10", "11")
+    let cliqueA = ("6", "7", "8", "10", "11")
+    let cliqueB = ("4", "24", "25", "27")
 
     // Generazione degli spigoli
     for i in range(edges.len()) {
@@ -70,22 +73,38 @@
       let pos_u = nodes.at(u)
       let pos_v = nodes.at(v)
 
-      if clique.contains(u) and clique.contains(v) {
-        line(pos_u, pos_v, stroke: 2.5pt + rgb("AB3502"))
+      if cliqueA.contains(u) and cliqueA.contains(v) {
+        line(pos_u, pos_v, stroke: 2.5pt + red_sns)
+      } else if cliqueB.contains(u) and cliqueB.contains(v) {
+        line(pos_u, pos_v, stroke: 2.5pt + orange_sns)
       } else {
-        line(pos_u, pos_v, stroke: 1.5pt + rgb("183F56"))
+        line(pos_u, pos_v, stroke: 1.5pt + dark_blue_sns)
       }
     }
 
     // Generazione dei vertici
     for (id, pos) in nodes {
-      if clique.contains(id) {
-        circle(pos, radius: 0.3, fill: rgb("AB3502"), stroke: 2.5pt + rgb("AB3502"))
-        // content(pos, text(fill: rgb("FF0000"), weight: "bold", size: 14pt)[#id])
+      if cliqueA.contains(id) {
+        circle(pos, radius: 0.3, fill: red_sns, stroke: 2.5pt + red_sns)
+      } else if cliqueB.contains(id) {
+        circle(pos, radius: 0.3, fill: orange_sns, stroke: 2.5pt + orange_sns)
       } else {
-        circle(pos, radius: 0.3, fill: rgb("183F56"), stroke: (paint: rgb("183F56"), thickness: 1.5pt))
-        // content(pos, text(fill: black, size: 12pt)[#id])
+        circle(pos, radius: 0.3, fill: dark_blue_sns, stroke: 1.5pt + dark_blue_sns)
       }
     }
+
+    let pos_bersaglio = (-2.4, 8.1)
+    let pos_testo_B = (-4, 8.5)
+
+    line(pos_testo_B, pos_bersaglio, mark: (end: ">", fill: black), stroke: 1.5pt + black)
+
+    content(pos_testo_B, anchor: "south-east", padding: 0.1cm)[
+      #text(fill: black, size: 1em)[
+        $4/5$-approx of $omega(G)$
+      ]
+    ]
+
+    // Contrappeso geometrico invisibile per calibrare il bounding box
+    line((15.0, 8.0), (15.0, 8.0), stroke: none)
   })
 )

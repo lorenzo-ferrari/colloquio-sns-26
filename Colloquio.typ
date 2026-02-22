@@ -18,7 +18,7 @@
 #set text(lang: "en", size: 20pt)
 #show: sns-polylux-template.with(
   aspect-ratio    : "16-9",
-  title           : [Hardness of Approximation],
+  title           : [Hard Approximations],
   subtitle        : [PCPs and why it is NP-Hard to $epsilon$-approximate MAX-CLIQUE],
   event           : [Scuola Normale Superiore - Aprile 2026], // lo tengo?
   short-title     : [],
@@ -40,19 +40,10 @@
   )
 )
 
+// definirò in maniera informale ma accurata la questione P vs NP
+// queste definizioni diventano rigorose in termini di MdT
+
 #title-slide()
-
-// NO! Non voglio perdere il pubbico perché non sa cosa vuol dire NP-Hard, eps-approssimare e MAX-CLIQUE
-#slide()[
-  We will introduce $"NP"$-hardness, Probabilistically Checkable Proofs and, via the PCP Theorem, establish the following
-  #colorbox(color:"red", title:"Theorem")[
-    #set align(center)
-    #set text(size:9mm)
-    For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
-
-    #v(1em)
-  ]
-]
 
 #toc-slide( title: [Table of Contents] )
 
@@ -64,96 +55,101 @@
 // vai avanti -> evidenzi un ciclo dispari in quello a dx
 
 #slide(
-  title: [$"P"$: 2-$"Coloring"$]
+  title: [P: 2-Coloring]
 )[
-  
+  #set align(center)
+  #include "./graphics/big_two_colored_graph.typ"
 ]
-
-// poi... generalizziamo! 3-colorazione... cambio drastico!
-// I) Nessuno ha mai trovato un algoritmo efficiente (per noi efficiente = polinomiale)
-// II) 1M $ per trovarne uno o dire che non esiste
-// III) Se esistesse, esisterebbe un algoritmo efficiente per dimostrare tutto ciò che è dimostrabile
-
-// def informale di P vs NP
-// P: si risolve in tempo polinomiale
-// NP: si può verificare in tempo polinomiale
-
-// parlerò del PCP, che è un altro teorema che parla di dimostrazioni
 
 #slide(
-  title: [P versus NP],
-)[  
-  #colorbox(color :"blue", title:[Problem ($k"-Colorability"$)])[
-    #set align(center)
-    #set text(size:9mm)
-    Given a graph $G(V, E)$, is it $k$-colorable?
-
-    #v(1em)
-  ]
-
-  For a fixed $k$, how hard is the problem? What does _hard_ even mean?
-
-  From now on, "efficient" = "polynomial-time".
-]
-
-#slide()[
-  #colorbox(color :"green", title: [Definition ($"P"$)])[
-    #set align(center)
-    #set text(size:9mm)
-    A language $L subset.eq {0, 1}^*$ belongs to the class $"P"$ if there exists an efficient algorithm deciding whether any $x in {0, 1}^*$ is in $L$.
-    #v(1em)
-  ]
-  #colorbox(color :"green", title: [Definition ($"NP"$)])[
-    #set align(center)
-    #set text(size:9mm)
-    A language $L subset.eq {0, 1}^*$ belongs to the class $"NP"$ if, given a proof of $x in L$, it can be efficiently verified that $x in L$.
-
-    #v(1em)
-  ]
-]
-
-#slide()[
-  #grid(columns:(0.6fr,0.4fr),[
-    Note $"P" subset.eq "NP"$ (ignore the proof!).
-    The millennium problem "$"P"$ vs $"NP"$" asks whether $"P" subset.neq "NP"$ or $"P"= "NP"$.
-
-    Most people believe $"P" eq.not "NP"$, though the problem is still open.
-
-    A problem is said to be *NP-Hard* if the existence of a polynomial solution implies $"P" = "NP"$.
-
-    Curiously, there exists $"NP"$-Hard problems, even in $"NP"$ (Cook, '71; Levin, '73).
+  title: [P: 2-Coloring]
+)[
+  #grid(columns:(0.5fr, 0.5fr), [
+    #align(center)[
+      #only(1)[ #include "./graphics/two_colorable_graph.typ" ]
+      #only((2, 3))[ #include "./graphics/two_colored_graph.typ" ]
+    ]
   ],
   [
     #align(center)[
-     #image("pics/PvsNP.png", width: 80%) 
-  ]
+      #only((1, 2))[ #include "./graphics/non_two_colorable_graph.typ" ]
+      #only((3))[ #include "./graphics/non_two_colored_graph.typ" ]
+    ]
   ])
 ]
 
-#slide()[
-  ...back to our example:
-  - it can be efficiently verified whether an assignment $V -> {0, ..., k - 1}$ is a $k$-coloring, hence $k"-Colorability" in "NP"$; 
-  - it holds $2"-Colorability" in "P"$: it can be solved in linear time;
-  - for $k >= 3$, $k"-Colorability"$ is *NP-Hard*: there is a sudden complexity jump at $k = 3$.
-
-  // pause
-  By definition, the class $"NP"$ consists of the problems admitting a proof in the canonical sense, which is not the only possible proof protocol.
-
+#slide(
+  title: [NP: 3-Coloring]
+)[
+  #grid(columns: (0.4fr, 0.6fr),[
+    #set align(center)
+    #include "./graphics/three_colorable_graph.typ"
+  ],
+  [
+    #item-by-item[
+      - No _efficient_ (= polynomial-time) algorithm is known.
+      - It is conjectured it doesn't exist ($"P"$ vs $"NP"$).
+      - If it did, the existence of mathematical proofs could be decided efficiently. // with respect to the length of the proof
+    ]
+  ])
 ]
+
+#slide(
+  title: [What can we say about 3-Coloring?]
+)[
+  #grid(columns: (0.4fr, 0.6fr), [
+    #set align(center)
+    #include "./graphics/wrong_three_coloring.typ"
+  ],[
+    Correctness can be efficiently _verified_.
+  ])
+]
+
+#slide(
+  title: [P vs NP]
+)[
+  #colorbox(color :"green", title: [Definition (P)])[
+    #set align(center)
+    #set text(size:9mm)
+    Decision problems whose solution can be found efficiently.
+
+    #v(1em)
+  ]
+  #colorbox(color :"green", title: [Definition (NP)])[
+    #set align(center)
+    #set text(size:9mm)
+    Decision problems whose solution can be verified efficiently.
+
+    #v(1em)
+  ]
+]
+
+#slide(
+  title: [Millenium Problem]
+)[
+  #colorbox(color :"blue", title: [P vs NP])[
+    #set align(center)
+    #set text(size:15mm)
+    #v(0.8em)
+    Is $"P"$ a proper subset of $"NP"$?
+    #v(1.5em)
+  ]
+]
+
+// parlerò del PCP, che è un altro teorema che parla di dimostrazioni
 
 // def di PCP
 // Teoremone, lapidario
 // specifico giusto un pochino che 1/2 è arbitrario e posso sostituirlo con delta a piacere
 // racconto che ha varie ramificazioni, io mi concentro sui problemi di ottimizzazione
 
+// immaginiamo di avere la dimostrazione di un problema e di adottare la seguente procedura di verifica piuttosto sbrigativa
 #new-section-slide([The PCP Theorem])
 
 #slide(
   title: [The class $"PCP"(c log n, q)$],
 )[
-  We restrict out attention to Probabilistically Checkable Proofs, in particular to the class $"PCP"(O(log n), O(1))$.
-
-  Let $c, q in ZZ^+$ be constants and consider the following proof system. Given a proof $Pi : ZZ^+ -> {0, 1}$ and an efficient probabilistic verifier $V$:
+  Let $c, q in ZZ^+$ be constants. Given a proof $Pi : ZZ^+ -> {0, 1}$ and an efficient probabilistic verifier $V$:
   - on input $x in {0, 1}^n$, $V$ reads a random string $R$ of up to $c log n$ bits;
   - based on $R$, $V$ chooses $q$ locations $i_1, ..., i_q$ of the proof and reads the corresponding bits $Pi(i_1), ..., Pi(i_q)$;
   - based on $R$ and $Pi(i_1), ..., Pi(i_q)$, $V$ decides whether to accept or reject.
@@ -164,14 +160,59 @@
     #set text(size:9mm)
     A language $L subset.eq {0, 1}^*$ belongs to the class $"PCP"_(1/2) (c log n, q)$ if there exists a verifier $V$ as above s.t., on input $x$:
     - if $x in L$, there exists a valid proof $Pi : ZZ^+ -> {0, 1}$ s.t. $Pr[V "accepts"] = 1$;
-    - if $x in.not L$, for any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] < 1 / 2$.
+    - if $x in.not L$, for any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
 
     #v(1em)
   ]
 
-  // pause
-  Observe that by repeating the test several times, the error probability can be made arbitrarily small.
+  #uncover(2)[
+    *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
+  ]
 ]
+
+#slide(
+  title: [...back to 3-Coloring]
+)[
+  #grid(columns: (0.5fr, 0.5fr), [
+    #set align(center)
+    #include "./graphics/unknown_three_coloring.typ"
+
+    #box(height: 1em)[
+      #only(4)[ *ACCEPT*]
+      #only(8)[ *REJECT*]
+    ]
+  ],
+  [
+    - $Pi = $ coloring;
+    - $V$ chooses at random a constant number of constraints;
+    - accept $arrow.double.r.l.long$ all of them are satisfied.
+  ])
+]
+
+#slide(
+  title: [Issue]
+)[
+  #grid(columns: (0.5fr, 0.5fr), [
+    #set align(center)
+    #include "./graphics/almost_three_colorable_graph.typ"
+  ],
+  [
+    Colorings could violate only a fraction $1 / m$ of the constraints.
+
+    $arrow.double$ The naïve proof system is not good enough.
+  ])
+]
+
+#slide()[
+  #colorbox(color: "blue", title: "Fact")[
+    #set text(size: 9mm)
+      There exists a transformation $G mapsto G'$ such that
+      - $G$ $3$-Colorable $arrow.double$ $G'$ $3$-Colorable;
+      - $G$ not $3$-Colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
+    #v(1em)
+  ]
+]
+
 
 #focus-slide(
 //  title: [The PCP Theorem],
@@ -184,17 +225,9 @@
 
     #v(1.5em)
   ]
-]
-
-#slide(title: [The PCP Theorem])[
-  // NOTA: è importante l'unione su c! È vero, posso scegliere una c_0 che va bene per 3-SAT, ma c'è la riduzione polinomiale da L a 3-SAT di mezzo.
-  In particular, there exists a constant $q$ s.t. $ "NP" = union.big_(c > 0) "PCP"_(1/2)(c log n, q)$, where $1 / 2$ here can be any $delta > 0$.
-  
-  In other words, canonical proofs and PCPs possess the same expressing power.
-  
-  Though fascinating on its own, the PCP theorem has unexpected consequences in seemingly unrelated areas.
-  
-  // The proof is complex (and will be the main topic of my thesis).
+  // ci sta dicendo che le dimostrazioni in senso classico e le dimostrazioni "sbrigative" hanno lo stesso potere espressivo
+  // conseguenze soprendenti:
+  // (in)approssimabilità
 ]
 
 #new-section-slide([MAX-CLIQUE])
@@ -208,8 +241,9 @@
 // vado avanti -> Chromatic Number
 
 #slide(
-  // title: [MAX-CLIQUE]
+  title: [MAX-CLIQUE]
 )[
+  #set align(center)
   #include "./graphics/max_clique.typ"
 ]
 
@@ -220,88 +254,107 @@
     #set align(center)
     #set text(size:9mm)
     A _clique_ in a graph $G(V, E)$ is a complete subgraph of $G$, i.e. a subset of pairwise adjacent nodes.
-    \
-    \
+    #v(1em)
   ]
-  Given a graph $G(V, E)$, the problem $"MAX-CLIQUE"$ asks for the maximum cardinality among all cliques of $G$.
+
+  #uncover(2)[
+    $"MAX-CLIQUE"$: given $G$, determine $omega(G)$, where
+    $ omega: G mapsto max{|K| : K subset.eq G "is a clique"}. $
+  ]
 ]
 
-
 #slide(
-  title: [MAX-CLIQUE],
+  title: [MAX-CLIQUE is Hard],
 )[
     #colorbox(color :"blue", title:"Fact")[
     #set align(center)
     #set text(size:9mm)
     $"MAX-CLIQUE"$ is $"NP"$-Hard.
-    \
-    \
+    #v(1em)
   ]
-  Unless $"P" = "NP"$, we cannot solve efficiently $"MAX-CLIQUE"$. Can we at least approximate it? For example, can we efficiently find a clique of size at least $1/2, 1/3$ or $1/1000000$ of the maximum clique?
 ]
 
+#slide(
+  title: [Can we approximate it?]
+)[
+  #set align(center)
+  #include "./graphics/max_clique_approx.typ"
+]
 
 #slide(
   title: [Hardness of approximating MAX-CLIQUE],
 )[
-  #colorbox(color:"red", title:"Theorem")[
+  #colorbox(color: "red", title:"Theorem")[
     #set align(center)
     #set text(size:9mm)
     For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
 
     #v(1em)
   ]
-
-  We will prove it via the PCP Theorem.
 ]
+
+// #slide(
+//   title: [Proof],
+// )[
+//   *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
+// 
+//   Let $L in "NP"$ be any problem.
+// 
+//   #colorbox(color: "blue", title: "Fundamental reduction")[
+//     #set text(size:9mm)
+//     For any $epsilon > 0$, there exists a transformation $x mapsto G$ from instances of $L$ to graphs s.t.:
+//     - $x in L arrow.double omega(G) = M$;
+//     - $x in.not L arrow.double omega(G) < epsilon M$.
+//     #v(1em)
+//   ]
+// ]
+// 
+// #slide()[
+//   To decide whether $x in L$:
+//   - build the graph $G$;
+//   - let $|K|$ be an $epsilon$-approximation of $omega(G)$;
+//     - if $|K| >= epsilon M$, then $x in L$; 
+//     - otherwise, $x in.not L$.
+// ]
 
 #slide(
   title: [Proof],
 )[
-  We will show that if an efficient algorithm approximates $"MAX-CLIQUE"$ within a factor $epsilon > 0$, then $"P" = "NP"$.
+  *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
 
-  Let $L in "NP"$ be any problem and fix a $"PCP"$-verifier for $L$ with probability error bounded by some $delta < epsilon$, reading $c log n$ random bits and $q$ bits from the certificate. Consider the $n^c 2^q$ possible runs of the algorithm.
+ Let $L in "NP"$ be any problem. Fix a $"PCP"$-verifier for $L$ with probability error bounded by some $delta < epsilon$, reading:
+ - $c log n$ random bits;
+ - $q$ bits from the certificate.
+
+ Consider the $n^c 2^q$ possible runs of the algorithm.
 ]
 
 #slide()[
   #grid(columns: (0.6fr, 0.4fr), [
     We call the information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ an _accepting transcript_ if:
     - on the random string $R$, the verifier reads the bits at positions $i_1, ..., i_q$ and
-    - reading the bits $Pi(i_1), ..., Pi(i_q)$ cause the verifier to accept.
+    - reading the bits $Pi(i_1), ..., Pi(i_q)$ causes the verifier to accept.
   ], [
     #include "./graphics/accepting_transcripts.typ"
   ]
   )
 ]
 
-// domanda: riesco a non andare a capo solo per una parola molto breve? LaTeX per esempio stretcha righe diverse
-
 #slide()[
-  Two transcripts $chevron.l R_i; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_j; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
+  Two transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
   
   Consider the graph $G$ on all the accepting transcripts, where
 
-    #set align(center)
-    $chevron.l R_1, Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2, Pi(j_1)...Pi(j_q) chevron.r$ are connected
-    $arrow.l.r.double.long$
-    they are consistent.
+  #set align(center)
+  $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are connected
+  $arrow.l.r.double.long$
+  they are consistent.
 
-  // #underline[The graph $G$ contains an $n^c$-clique iff there exists a valid certificate $Pi$.]
-  
-  #colorbox(color:"blue")[
-    #set text(size:9mm)
-    #v(1em)
-    The following holds:
-    - if $x in L$, then $G$ contains a clique of size $n^c$;
-    - if $x in.not L$, then cliques of $G$ are of size at most $delta n^c$.
-    #v(1em)
+  #v(1em)
+  #set align(left)
+  #uncover(2)[
+    *Key idea:* cliques $K$ in $G$ correspond to a partial certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$, where every $Pi$ extending $tilde(Pi)_K$ is accepted with probability at least $(|K|) / n^c$.
   ]
-]
-
-#slide()[
-  *Key idea:* Any clique $K$ in $G$ corresponds to a partial certificate $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$, where any $Pi$ extending $tilde(Pi)_K$ is accepted with probability at least $(|K|) / n^c$.
-
-  In particular, any valid certificate corresponds to an $n^c$-clique in $G$.
 ]
 
 #slide()[
