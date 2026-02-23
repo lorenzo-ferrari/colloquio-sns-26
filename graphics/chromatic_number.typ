@@ -44,7 +44,7 @@
       ("5","13"), ("5","12"), ("5","6"), ("5","7"),
       ("6","7"), ("6","8"), ("6","11"), ("6","10"), ("6", "28"),
       ("7","8"), ("7","11"), ("7","10"),
-      ("8","11"), ("8","10"), ("8", "28"),
+      ("8","10"), ("8", "28"),
       ("9","8"), ("9","10"), ("9", "22"), ("9", "26"),
       ("11","10"),
       ("14","13"), ("14","16"),
@@ -63,29 +63,37 @@
       ("28", "9")
     )
 
-    let clique = ("6", "7", "8", "10", "11")
+      let A = ("24", "23", "3", "14", "12", "6", "18",)
+      let B = ("4", "22", "2", "8", "11", "17", "20",)
+      let C = ("25", "1", "13", "7", "9", "15", "21",)
+      let D = ("27", "5", "10", "16", "19", "26", "28",)
 
-    // Generazione degli spigoli
-    for i in range(edges.len()) {
-      let u = edges.at(i).at(0)
-      let v = edges.at(i).at(1)
-      let pos_u = nodes.at(u)
-      let pos_v = nodes.at(v)
+      // Generazione degli spigoli
+      for i in range(edges.len()) {
+        let u = edges.at(i).at(0)
+        let v = edges.at(i).at(1)
+        let pos_u = nodes.at(u)
+        let pos_v = nodes.at(v)
 
-      if clique.contains(u) and clique.contains(v) {
-        line(pos_u, pos_v, stroke: 2.5pt + rgb("AB3502"))
-      } else {
-        line(pos_u, pos_v, stroke: 1.5pt + rgb("183F56"))
-      }
+        line(pos_u, pos_v, stroke: 1.5pt + dark_blue_sns)
     }
 
     // Generazione dei vertici
     for (id, pos) in nodes {
-      if clique.contains(id) {
-        circle(pos, radius: 0.3, fill: red_sns, stroke: 2.5pt + red_sns)
-        // content(pos, text(fill: rgb("FF0000"), weight: "bold", size: 14pt)[#id])
+      if A.contains(id) {
+        circle(pos, radius: 0.3, fill: purple_sns, stroke: 1.5pt + dark_blue_sns)
+        // content(pos, text(fill: black, weight: "bold", size: 12pt)[#id])
+      } else if B.contains(id) {
+        circle(pos, radius: 0.3, fill: orange_sns, stroke: 1.5pt + dark_blue_sns)
+        // content(pos, text(fill: black, size: 12pt)[#id])
+      } else if C.contains(id) {
+        circle(pos, radius: 0.3, fill: pale_blue_sns, stroke: 1.5pt + dark_blue_sns)
+        // content(pos, text(fill: black, size: 12pt)[#id])
+      } else if D.contains(id) {
+        circle(pos, radius: 0.3, fill: light_grey_sns, stroke: 1.5pt + dark_blue_sns)
+        // content(pos, text(fill: black, size: 12pt)[#id])
       } else {
-        circle(pos, radius: 0.3, fill: dark_blue_sns, stroke: 1.5pt + dark_blue_sns)
+        circle(pos, radius: 0.3, fill: ottanio_sns, stroke: 1.5pt + dark_blue_sns)
         // content(pos, text(fill: black, size: 12pt)[#id])
       }
     }

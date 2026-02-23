@@ -63,7 +63,10 @@
       ("28", "9")
     )
 
-    let clique = ("6", "7", "8", "10", "11")
+    let ham_cycle = (
+      "1", "3", "5", "6", "28", "4", "24", "27", "25", "23", "26", "22", "9", "8", "10", "7", "11", "21", "20", "18", "19", "17", "15", "16", "12", "13", "14", "2",
+    )
+
 
     // Generazione degli spigoli
     for i in range(edges.len()) {
@@ -72,22 +75,22 @@
       let pos_u = nodes.at(u)
       let pos_v = nodes.at(v)
 
-      if clique.contains(u) and clique.contains(v) {
-        line(pos_u, pos_v, stroke: 2.5pt + rgb("AB3502"))
-      } else {
-        line(pos_u, pos_v, stroke: 1.5pt + rgb("183F56"))
-      }
+      line(pos_u, pos_v, stroke: 1.5pt + dark_blue_sns)
+    }
+
+    for i in range(ham_cycle.len()) {
+      let u = ham_cycle.at(i)
+      let v = ham_cycle.at(calc.rem-euclid(i + 1, ham_cycle.len()))
+      let pos_u = nodes.at(u)
+      let pos_v = nodes.at(v)
+
+      line(pos_u, pos_v, stroke: 3.5pt + red_sns)
     }
 
     // Generazione dei vertici
     for (id, pos) in nodes {
-      if clique.contains(id) {
-        circle(pos, radius: 0.3, fill: red_sns, stroke: 2.5pt + red_sns)
-        // content(pos, text(fill: rgb("FF0000"), weight: "bold", size: 14pt)[#id])
-      } else {
-        circle(pos, radius: 0.3, fill: dark_blue_sns, stroke: 1.5pt + dark_blue_sns)
-        // content(pos, text(fill: black, size: 12pt)[#id])
-      }
+      circle(pos, radius: 0.2, fill: red_sns, stroke: 1.5pt + red_sns)
+      // content(pos, text(fill: white_sns, weight: "bold", size: 14pt)[#id])
     }
   })
 )

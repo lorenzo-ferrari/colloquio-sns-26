@@ -19,7 +19,7 @@
 #show: sns-polylux-template.with(
   aspect-ratio    : "16-9",
   title           : [Hard Approximations],
-  subtitle        : [PCPs and why it is NP-Hard to $epsilon$-approximate MAX-CLIQUE],
+  subtitle        : [PCPs and approximation hardness of MAX-CLIQUE],
   event           : [Scuola Normale Superiore - Aprile 2026], // lo tengo?
   short-title     : [],
   short-event     : [], // Scuola Normale Superiore — 04/2026],
@@ -136,6 +136,42 @@
   ]
 ]
 
+#slide(
+  title: [NP-Hard Problems]
+)[
+  #set align(center)
+  // If $"P" != "NP"$, then there isn't an efficient algorithm for...
+  $"P" != "NP" arrow.double.long$ There isn't an efficient algorithm for
+
+  #v(1em)
+
+  #box(height: 13em)[
+    #only(1)[
+      *Maximum Clique*
+
+      #scale(65%)[
+        #include "./graphics/max_clique.typ"
+      ]
+    ]
+    #only(2)[
+      *Hamiltonian Cycle*
+
+      #scale(65%)[
+        #include "./graphics/hamiltonian_cycle.typ"
+      ]
+    ]
+    #only(3)[
+      *Chromatic Number*
+      #scale(65%)[
+        #include "./graphics/chromatic_number.typ"
+      ]
+    ]
+    #only(4)[
+      *...and many others.*
+    ]
+  ]
+]
+
 // parlerò del PCP, che è un altro teorema che parla di dimostrazioni
 
 // def di PCP
@@ -184,7 +220,7 @@
   ],
   [
     - $Pi = $ coloring;
-    - $V$ chooses at random a constant number of constraints;
+    - $V$ chooses at random ($R$) a constant number of constraints;
     - accept $arrow.double.r.l.long$ all of them are satisfied.
   ])
 ]
@@ -293,45 +329,51 @@
   ]
 ]
 
-// #slide(
-//   title: [Proof],
-// )[
-//   *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
-// 
-//   Let $L in "NP"$ be any problem.
-// 
-//   #colorbox(color: "blue", title: "Fundamental reduction")[
-//     #set text(size:9mm)
-//     For any $epsilon > 0$, there exists a transformation $x mapsto G$ from instances of $L$ to graphs s.t.:
-//     - $x in L arrow.double omega(G) = M$;
-//     - $x in.not L arrow.double omega(G) < epsilon M$.
-//     #v(1em)
-//   ]
-// ]
-// 
-// #slide()[
-//   To decide whether $x in L$:
-//   - build the graph $G$;
-//   - let $|K|$ be an $epsilon$-approximation of $omega(G)$;
-//     - if $|K| >= epsilon M$, then $x in L$; 
-//     - otherwise, $x in.not L$.
-// ]
+// TODO: corrispondenza 1-1 con algoritmo di verifica per 3-col
 
 #slide(
   title: [Proof],
 )[
-  *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
+  // *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
 
- Let $L in "NP"$ be any problem. Fix a $"PCP"$-verifier for $L$ with probability error bounded by some $delta < epsilon$, reading:
+  Let $L in "NP"$ be any problem, (wlog) $L = 3"-Colorability"$.
+
+  *Goal:* Deciding if a given $G$ is $3$-Colorable $#box[$<=$]_"P"$ $epsilon$-approximating $"MAX-CLIQUE"$.
+
+  #colorbox(color: "blue", title: "Fundamental reduction")[
+    #set text(size:9mm)
+    For any $epsilon > 0$, there is a transformation of graphs $G mapsto G'$ s.t.:
+    1. $G$ is $3$-colorable $arrow.double omega(G') = M$;
+    2. $G$ is not $3$-colorable $arrow.double omega(G') < epsilon M$.
+    #v(1em)
+  ]
+]
+
+#slide(
+  title: [Proof],
+)[
+  Given the transformation, to decide whether $G$ is $3$-colorable:
+  - build the graph $G$;
+  - let $|K|$ be an $epsilon$-approximation of $omega(G)$;
+    - if $|K| >= epsilon M$, then $x in L$; #h(1em) #uncover(2)[$arrow.l$ from $2.$]
+    - otherwise, $x in.not L$. #h(1em) #uncover(2)[$arrow.l$ from $1.$]
+]
+
+#slide(
+  title: [Proof],
+)[
+ Fix a $"PCP"$-verifier for $3"-Coloring"$ with probability error bounded by some $delta < epsilon$, reading:
  - $c log n$ random bits;
  - $q$ bits from the certificate.
 
- Consider the $n^c 2^q$ possible runs of the algorithm.
+ On input $G$, consider the $n^c 2^q$ possible runs of the algorithm.
 ]
 
-#slide()[
+#slide(
+  title: [Proof],
+)[
   #grid(columns: (0.6fr, 0.4fr), [
-    We call the information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ an _accepting transcript_ if:
+    The information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ is an _accepting transcript_ if:
     - on the random string $R$, the verifier reads the bits at positions $i_1, ..., i_q$ and
     - reading the bits $Pi(i_1), ..., Pi(i_q)$ causes the verifier to accept.
   ], [
@@ -340,10 +382,12 @@
   )
 ]
 
-#slide()[
+#slide(
+  title: [Proof],
+)[
   Two transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
   
-  Consider the graph $G$ on all the accepting transcripts, where
+  Consider the graph $G'$ on all the accepting transcripts, where
 
   #set align(center)
   $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are connected
@@ -353,36 +397,176 @@
   #v(1em)
   #set align(left)
   #uncover(2)[
-    *Key idea:* cliques $K$ in $G$ correspond to a partial certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$, where every $Pi$ extending $tilde(Pi)_K$ is accepted with probability at least $(|K|) / n^c$.
+    *Key idea:* cliques $K$ in $G'$ $arrow.double$ partial certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$, where every $Pi$ extending $tilde(Pi)_K$ is accepted with probability at least $(|K|) / n^c$.
   ]
 ]
 
-#slide()[
-  To decide whether an input $x$ is in $L$:
-  - simulate the $n^c 2^q$ possible runs of the algorithm and build the graph $G$ as above;
-  - let $K$ be the clique found by the $epsilon$-approximation of $"MAX-CLIQUE"$;
-    - if $|K| > delta n^c$, then $x in L$;
-    - otherwise, $x in.not L$.
-
-  The former implication follows from the error probability of the $"PCP"$-verifier being bounded by $delta$. The latter from the fact that, if $x in L$, then there exists a valid certificate and a corresponding clique of size $n^c$, hence the approximation returns clique of size $|K| >= epsilon n^c > delta n^c$.
-  #align(right)[$qed$]
+#slide(
+  title: [Proof],
+)[
+  #grid(columns: (0.5fr, 0.5fr), rows: (0.5fr, 0.4fr, 0.1fr),
+  [
+    #set align(center)
+    #scale(55%)[
+        #include "./graphics/three_colorable_graph.typ"
+    ]
+  ],
+  [
+    #set align(center)
+    #scale(70%)[
+      #include "./graphics/four_clique.typ"
+    ]
+  ],
+  [
+    #set align(left + top)
+    $G$ is $3$-Colorable
+    #set list(marker: ([$arrow.double$],))
+      - valid certificate $Pi$;
+      - $n^c$-clique in $G'$.
+  ],
+  [
+    #set align(left + top)
+    #set list(marker: ([$arrow.double$],))
+    $G$ is not $3$-Colorable
+    #set list(marker: ([$arrow.double$],))
+    - every certificate is accepted at most $delta n^c$ out of $n^c$ times;
+    - cliques of $G'$ are bounded by $delta n^c < epsilon n^c$.
+  ],
+  [
+  ],
+  [
+    #align(right)[$qed$]
+  ])
 ]
 
 #new-section-slide([Further Results])
 
 #slide(
-  title: [Stronger PCPs: Håstad's 3 bits],
+  title: [Stronger PCPs: Håstad's 3-bit PCP],
 )[
-  ...or maybe not.
+  #colorbox(color: "red", title: "Theorem (Håstad, 2001)")[
+    #set text(size:9mm)
+    For any $delta > 0$, every language in $"NP"$ admits a $"PCP"$-verifier that reads $O(log n)$ random bits, queries exactly *3 bits* of the proof, and:
+    - accepts valid proofs with probability $>= 1 - delta$;
+    - accepts invalid proofs with probability $<= 1/2 + delta$.
+
+    Moreover, the accepting condition is a parity test.
+    #v(1em)
+  ]
 ]
 
 #slide(
-  title: [Hardness of $(1\/2 + epsilon)$-approximating MAX-E2LIN],
+  title: [Håstad's verifier],
 )[
-  Follows from Håstad's result.
-  
-  This also implies the hardness of $(7/8 + epsilon)$-approximating $"MAX-3SAT"$.
+  // [da pensare come visualizzarlo]
+
+  The verifier:
+  - reads up to $c log n$ random bits;
+  - chooses positions $i_1, i_2, i_3 in ZZ^+$ and a bit $b in {0, 1}$;
+  - accepts $arrow.double.r.l.long$ $Pi(i_1) plus.o Pi(i_2) plus.o Pi(i_3) = b$
 ]
+
+#slide(
+  title: [MAX-2LIN],
+)[
+  #colorbox(color: "blue", title: "Problem (MAX-2LIN)")[
+    #set text(size:9mm)
+    Given a system of linear equations over $FF_2$, maximize the number of satisfied equations.
+    #v(1em)
+  ]
+
+  #v(1em)
+  #uncover(2)[
+    *Observation:* A random assigments gives a $1/2$-approximation.
+  ]
+]
+
+#slide(
+  title: [Inapproximability of MAX-2LIN]
+)[
+  #colorbox(color: "red", title: "Theorem (Håstad)")[
+    #set text(size:9mm)
+    For any $epsilon > 0$, it is $"NP"$-Hard to $(1/2 + epsilon)$-approximate $"MAX-2LIN"$.
+    #v(1em)
+  ]
+]
+
+#slide(
+  title: [Proof]
+)[
+  Fix a $"PCP"$ verifier as the above with a small enough $delta$ for $3"-Colorabirability"$. On input $G$, to decide whether $G$ is $3"-Colorable"$ consider the system of equation
+  $
+  S := 
+    cases(
+      X_(i_1 (R_1)) plus.o X_(i_2 (R_1)) plus.o X_(i_3 (R_1)) = b(R_1),
+      X_(i_1 (R_2)) plus.o X_(i_2 (R_2)) plus.o X_(i_3 (R_2)) = b(R_2),
+      ...,
+      X_(i_1 (R_(n^c))) plus.o X_(i_2 (R_(n^c))) plus.o X_(i_3 (R_(n^c))) = b(R_(n^c)),
+    )
+  $
+  where $i_1 (R), i_2 (R), i_3 (R)$ are the positions queried by the verifier on random string $R$.
+]
+
+#slide(
+  title: [Proof],
+)[
+  #grid(rows: (0.4fr, 0.4fr, 0.2fr),
+  [
+    #grid(columns: (0.5fr, 0.5fr), [
+      #set align(center)
+      #scale(45%)[
+          #include "./graphics/three_colorable_graph.typ"
+      ]
+    ],
+    [
+      #set align(center)
+      #scale(55%)[
+        #include "./graphics/four_clique.typ"
+      ]
+    ])
+  ],
+  [
+    #grid(columns: (0.5fr, 0.5fr), [
+      #set align(left + top)
+      $G$ is $3$-Colorable
+      #set list(marker: ([$arrow.double$],))
+      - there exist a valid certificate;
+      - $"MAX-2LIN"(S) >= (1 - delta)|S|$;
+    ],
+    [
+      #set align(left + top)
+      #set list(marker: ([$arrow.double$],))
+      $G$ is not $3$-Colorable
+      #set list(marker: ([$arrow.double$],))
+      - every certificate is rejected with probability at most $1/2 + delta$
+      - $"MAX-2LIN"(S) <= (1/2 + delta)|S|$
+    ])
+  ],
+  [
+    #v(1em)
+    #uncover(2)[
+      #set align(center)
+      If $(1 - delta)(1/2 + epsilon) > 1/2 + delta$, the scenarios can be told apart.
+      #align(right)[$qed$]
+    ]
+  ])
+]
+
+// #slide(
+//   title: [Inapproximability of MAX-3SAT],
+// )[
+//   #colorbox(color: "red", title: "Theorem (Håstad)")[
+//     #set text(size:9mm)
+//     For any $epsilon > 0$, it is $"NP"$-Hard to $(7/8 + epsilon)$-approximate $"MAX-3SAT"$.
+//     #v(1em)
+//   ]
+// ]
+// 
+// #slide(
+//   title: [Proof]
+// )[
+//   Gap-preserving reduction (both ways!) between $"MAX-2LIN"$ and $"MAX-3SAT"$.
+// ]
 
 #slide(
   title: [Bibliography],
@@ -392,6 +576,7 @@
   - (1973) Levin -- _Universal Sequential Search Problems_
   - (1992) Arora, Lung, Motwani, Sudan, Szegedy -- _Proof Verification and the Hardness of Approximation Problems_
   - (1996) Feige, Goldwasser, Lovasz, Safra, Szegedy -- _Interactive Proofs and the Hardness of Approximating Cliques_
+  - (2001) Håstad -- _Some Optimal Inapproximability Results_
   - (2006) Dinur -- _The PCP Theorem by Gap Amplification_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
 ]
