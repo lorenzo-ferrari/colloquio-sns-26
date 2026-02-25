@@ -55,14 +55,14 @@
 // vai avanti -> evidenzi un ciclo dispari in quello a dx
 
 #slide(
-  title: [P: 2-Coloring]
+  title: [P: 2-Colorability]
 )[
   #set align(center)
   #include "./graphics/big_two_colored_graph.typ"
 ]
 
 #slide(
-  title: [P: 2-Coloring]
+  title: [P: 2-Colorability]
 )[
   #grid(columns:(0.5fr, 0.5fr), [
     #align(center)[
@@ -79,7 +79,7 @@
 ]
 
 #slide(
-  title: [NP: 3-Coloring]
+  title: [NP: 3-Colorability]
 )[
   #grid(columns: (0.4fr, 0.6fr),[
     #set align(center)
@@ -95,7 +95,7 @@
 ]
 
 #slide(
-  title: [What can we say about 3-Coloring?]
+  title: [What can we say about 3-Colorability?]
 )[
   #grid(columns: (0.4fr, 0.6fr), [
     #set align(center)
@@ -207,7 +207,7 @@
 ]
 
 #slide(
-  title: [...back to 3-Coloring]
+  title: [...back to 3-Colorability]
 )[
   #grid(columns: (0.5fr, 0.5fr), [
     #set align(center)
@@ -240,11 +240,11 @@
 ]
 
 #slide()[
-  #colorbox(color: "blue", title: "Fact")[
+  #colorbox(color: "blue", title: "Key fact")[
     #set text(size: 9mm)
       There exists a transformation $G mapsto G'$ such that
-      - $G$ $3$-Colorable $arrow.double$ $G'$ $3$-Colorable;
-      - $G$ not $3$-Colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
+      - $G$ $3$-colorable $arrow.double$ $G'$ $3$-colorable;
+      - $G$ not $3$-colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
     #v(1em)
   ]
 ]
@@ -338,7 +338,7 @@
 
   Let $L in "NP"$ be any problem, (wlog) $L = 3"-Colorability"$.
 
-  *Goal:* Deciding if a given $G$ is $3$-Colorable $#box[$<=$]_"P"$ $epsilon$-approximating $"MAX-CLIQUE"$.
+  *Goal:* Deciding if a given $G$ is $3$-colorable $#box[$<=$]_"P"$ $epsilon$-approximating $"MAX-CLIQUE"$.
 
   #colorbox(color: "blue", title: "Fundamental reduction")[
     #set text(size:9mm)
@@ -353,8 +353,8 @@
   title: [Proof],
 )[
   Given the transformation, to decide whether $G$ is $3$-colorable:
-  - build the graph $G$;
-  - let $|K|$ be an $epsilon$-approximation of $omega(G)$;
+  - build the graph $G'$;
+  - let $|K|$ be an $epsilon$-approximation of $omega(G')$;
     - if $|K| >= epsilon M$, then $x in L$; #h(1em) #uncover(2)[$arrow.l$ from $2.$]
     - otherwise, $x in.not L$. #h(1em) #uncover(2)[$arrow.l$ from $1.$]
 ]
@@ -362,7 +362,7 @@
 #slide(
   title: [Proof],
 )[
- Fix a $"PCP"$-verifier for $3"-Coloring"$ with probability error bounded by some $delta < epsilon$, reading:
+ Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < epsilon$, reading:
  - $c log n$ random bits;
  - $q$ bits from the certificate.
 
@@ -419,7 +419,7 @@
   ],
   [
     #set align(left + top)
-    $G$ is $3$-Colorable
+    $G$ is $3$-colorable
     #set list(marker: ([$arrow.double$],))
       - valid certificate $Pi$;
       - $n^c$-clique in $G'$.
@@ -427,7 +427,7 @@
   [
     #set align(left + top)
     #set list(marker: ([$arrow.double$],))
-    $G$ is not $3$-Colorable
+    $G$ is not $3$-colorable
     #set list(marker: ([$arrow.double$],))
     - every certificate is accepted at most $delta n^c$ out of $n^c$ times;
     - cliques of $G'$ are bounded by $delta n^c < epsilon n^c$.
@@ -446,7 +446,7 @@
 )[
   #colorbox(color: "red", title: "Theorem (Håstad, 2001)")[
     #set text(size:9mm)
-    For any $delta > 0$, every language in $"NP"$ admits a $"PCP"$-verifier that reads $O(log n)$ random bits, queries exactly *3 bits* of the proof, and:
+    For any $delta > 0$, $L in "NP"$, there exists a $"PCP"$-verifier that reads $O(log n)$ random bits, queries exactly *3 bits* of the proof $Pi$, and:
     - accepts valid proofs with probability $>= 1 - delta$;
     - accepts invalid proofs with probability $<= 1/2 + delta$.
 
@@ -494,7 +494,7 @@
 #slide(
   title: [Proof]
 )[
-  Fix a $"PCP"$ verifier as the above with a small enough $delta$ for $3"-Colorabirability"$. On input $G$, to decide whether $G$ is $3"-Colorable"$ consider the system of equation
+  Fix a $"PCP"$ verifier as the above with a small enough $delta$ for $3"-Colorability"$. On input $G$, to decide whether $G$ is $3$-colorable, consider the system of equation
   $
   S := 
     cases(
@@ -510,17 +510,17 @@
 #slide(
   title: [Proof],
 )[
-  #grid(rows: (0.4fr, 0.4fr, 0.2fr),
+  #grid(rows: (0.35fr, 0.4fr, 0.25fr),
   [
     #grid(columns: (0.5fr, 0.5fr), [
       #set align(center)
-      #scale(45%)[
+      #scale(40%)[
           #include "./graphics/three_colorable_graph.typ"
       ]
     ],
     [
       #set align(center)
-      #scale(55%)[
+      #scale(60%)[
         #include "./graphics/four_clique.typ"
       ]
     ])
@@ -528,7 +528,7 @@
   [
     #grid(columns: (0.5fr, 0.5fr), [
       #set align(left + top)
-      $G$ is $3$-Colorable
+      $G$ is $3$-colorable
       #set list(marker: ([$arrow.double$],))
       - there exist a valid certificate;
       - $"MAX-2LIN"(S) >= (1 - delta)|S|$;
@@ -536,9 +536,9 @@
     [
       #set align(left + top)
       #set list(marker: ([$arrow.double$],))
-      $G$ is not $3$-Colorable
+      $G$ is not $3$-colorable
       #set list(marker: ([$arrow.double$],))
-      - every certificate is rejected with probability at most $1/2 + delta$
+      - every certificate is accepted with probability at most $1/2 + delta$
       - $"MAX-2LIN"(S) <= (1/2 + delta)|S|$
     ])
   ],
@@ -584,7 +584,6 @@
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
 // https://www.cs.umd.edu/~gasarch/TOPICS/pcp/fglss.pdf
 // https://kam.mff.cuni.cz/~matousek/cla/dinur-pcp-combinatorial-proof.pdf
-
 
 #empty-slide()[
   Thank you! Questions?
