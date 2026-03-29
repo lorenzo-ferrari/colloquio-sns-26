@@ -10,16 +10,18 @@
 #let proof_top_y = proof_bottom_y + cell_side
 #let proof_mid_y = proof_bottom_y + cell_side / 2
 #let verifier_width = 3
-#let verifier_height = 2
+#let verifier_height = 3
 #let r_height = 0.7
 #let verifier_left_x = 7.0
 #let verifier_right_x = verifier_left_x + verifier_width
 #let verifier_mid_x = verifier_left_x + verifier_width / 2
 #let verifier_top_y = 2.5
 #let verifier_bottom_y = verifier_top_y - verifier_height
-#let line_y = verifier_bottom_y + r_height
-#let verifier_mid_y = verifier_top_y - (verifier_height - r_height) / 2
+#let first_line_y = verifier_bottom_y + r_height
+#let second_line_y = verifier_bottom_y + 2 * r_height
+#let verifier_mid_y = (verifier_top_y + second_line_y) / 2
 #let r_mid_y = verifier_bottom_y + r_height / 2
+#let x_mid_y = first_line_y + r_height / 2
 
 #let queries = (
   (1, 3, 7, 8, 13),
@@ -42,15 +44,22 @@
 
         // Verificatore V (stato iniziale separato)
         rect((verifier_left_x, verifier_bottom_y), (verifier_right_x, verifier_top_y), radius: 0.2)
-        line((verifier_left_x, line_y), (verifier_right_x, line_y))
+        line((verifier_left_x, first_line_y), (verifier_right_x, first_line_y))
+        line((verifier_left_x, second_line_y), (verifier_right_x, second_line_y))
         content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[$V$])
         // Stringa casuale R
-        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, line_y), radius: 0.1)
-        content((verifier_mid_x - 4, r_mid_y), text(size: 20pt)[$R$])
-
-        content((verifier_left_x - 3.3, line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
-        content((verifier_left_x - 2.5, line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
-        content((verifier_left_x - 1.7, line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
+        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, first_line_y), radius: 0.1)
+        if j == 0 {
+          content((verifier_mid_x - 4, r_mid_y), text(size: 20pt)[$R$])
+        } else {
+          content((verifier_mid_x - 4, r_mid_y), text(size: 20pt)[$R'$])
+        }
+        content((verifier_left_x - 3.3, first_line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
+        content((verifier_left_x - 2.5, first_line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
+        content((verifier_left_x - 1.7, first_line_y + 0.2), image("../pics/coin.svg", width: 1cm), anchor: "south")
+        // input x
+        rect((verifier_left_x + 4, first_line_y), (verifier_right_x + 4, second_line_y), radius: 0.1)
+        content((verifier_mid_x + 4, x_mid_y), text(size: 20pt)[$x$])
       })
     )
   ]
@@ -69,12 +78,18 @@
         }
 
         // solo per l'allineamento
-        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, line_y), radius: 0.1, stroke: none)
+        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, first_line_y), radius: 0.1, stroke: none)
 
         rect((verifier_left_x, verifier_bottom_y), (verifier_right_x, verifier_top_y), radius: 0.2)
-        line((verifier_left_x, line_y), (verifier_right_x, line_y))
+        line((verifier_left_x, first_line_y), (verifier_right_x, first_line_y))
+        line((verifier_left_x, second_line_y), (verifier_right_x, second_line_y))
         content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[$V$])
-        content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        content((verifier_mid_x, x_mid_y), text(size: 20pt)[$x$])
+        if (j == 0) {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        } else {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R'$])
+        }
       })
     )
   ]
@@ -93,12 +108,18 @@
         }
 
         // solo per l'allineamento
-        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, line_y), radius: 0.1, stroke: none)
+        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, first_line_y), radius: 0.1, stroke: none)
 
         rect((verifier_left_x, verifier_bottom_y), (verifier_right_x, verifier_top_y), radius: 0.2)
-        line((verifier_left_x, line_y), (verifier_right_x, line_y))
+        line((verifier_left_x, first_line_y), (verifier_right_x, first_line_y))
+        line((verifier_left_x, second_line_y), (verifier_right_x, second_line_y))
         content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[$V$])
-        content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        content((verifier_mid_x, x_mid_y), text(size: 20pt)[$x$])
+        if (j == 0) {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        } else {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R'$])
+        }
 
         // Frecce per le query agli indici specifici della prova
         for q in queries.at(j) {
@@ -133,12 +154,18 @@
         }
 
         // solo per l'allineamento
-        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, line_y), radius: 0.1, stroke: none)
+        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, first_line_y), radius: 0.1, stroke: none)
 
         rect((verifier_left_x, verifier_bottom_y), (verifier_right_x, verifier_top_y), radius: 0.2)
-        line((verifier_left_x, line_y), (verifier_right_x, line_y))
+        line((verifier_left_x, first_line_y), (verifier_right_x, first_line_y))
+        line((verifier_left_x, second_line_y), (verifier_right_x, second_line_y))
         content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[$V$])
-        content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        content((verifier_mid_x, x_mid_y), text(size: 20pt)[$x$])
+        if (j == 0) {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        } else {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R'$])
+        }
 
         // Frecce per le query agli indici specifici della prova
         for q in queries.at(j) {
@@ -173,16 +200,22 @@
         }
 
         // solo per l'allineamento
-        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, line_y), radius: 0.1, stroke: none)
+        rect((verifier_left_x - 4, verifier_bottom_y), (verifier_right_x - 4, first_line_y), radius: 0.1, stroke: none)
 
         rect((verifier_left_x, verifier_bottom_y), (verifier_right_x, verifier_top_y), radius: 0.2)
-        line((verifier_left_x, line_y), (verifier_right_x, line_y))
+        line((verifier_left_x, first_line_y), (verifier_right_x, first_line_y))
+        line((verifier_left_x, second_line_y), (verifier_right_x, second_line_y))
         if j == 0 {
           content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[*ACCEPT*])
         } else {
           content((verifier_mid_x, verifier_mid_y), text(size: 20pt)[*REJECT*])
         }
-        content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        content((verifier_mid_x, x_mid_y), text(size: 20pt)[$x$])
+        if (j == 0) {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R$])
+        } else {
+          content((verifier_mid_x, r_mid_y), text(size: 20pt)[$R'$])
+        }
 
         // Frecce per le query agli indici specifici della prova
         for q in queries.at(j) {

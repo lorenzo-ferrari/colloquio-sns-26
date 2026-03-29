@@ -255,7 +255,6 @@
 ]
 
 #slide(
-  title: [PCP Verification]
 )[
   #set align(center)
   #include "./graphics/pcp_verification.typ"
