@@ -16,17 +16,5 @@
       line((i, 0.2), (i, 5.3), stroke: 0.5pt + black)
       line((0.2, i), (5.3, i), stroke: 0.5pt + black)
     }
-
-    circle((1, 2), ..punto-verde)
-    circle((1, 4), ..punto-verde)
-    circle((2, 1), ..punto-verde)
-    circle((2, 5), ..punto-verde)
-    circle((3, 2), ..punto-verde)
-    circle((3, 3), ..punto-verde)
-    circle((4, 3), ..punto-verde)
-    circle((4, 4), ..punto-verde)
-    circle((5, 1), ..punto-verde)
-    circle((5, 5), ..punto-verde)
-
   })
 )

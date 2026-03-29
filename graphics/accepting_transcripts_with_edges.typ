@@ -17,6 +17,20 @@
       line((0.2, i), (5.3, i), stroke: 0.5pt + black)
     }
 
+    line((1, 2), (3, 3), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((1, 2), (3, 2), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((1, 4), (5, 5), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((1, 4), (2, 5), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((1, 4), (3, 3), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((2, 1), (3, 2), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((2, 1), (5, 1), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((2, 5), (5, 5), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((3, 3), (4, 4), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((3, 3), (5, 1), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((4, 3), (5, 1), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((4, 3), (5, 5), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+    line((4, 4), (2, 5), stroke: (paint: red, dash: "dashed", thickness: 2pt))
+
     circle((1, 2), ..punto-verde)
     circle((1, 4), ..punto-verde)
     circle((2, 1), ..punto-verde)

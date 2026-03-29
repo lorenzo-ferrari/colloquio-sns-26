@@ -316,7 +316,7 @@
     ]
   ])
 
-    #v(1em)
+  #v(1em)
 
   #uncover(2)[
     *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
@@ -456,7 +456,7 @@
 #slide(
   title: [Decision procedure],
 )[
-  Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$.
+  #uncover((2,3,4))[ Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$. ]
   #align(center)[
   #table(
     columns: (0.5fr, 0.5fr),
@@ -474,14 +474,14 @@
     ),
     [$omega(G') = M$], [$omega(G') < macron(epsilon) M$],
     [
-      #uncover((2, 3))[
+      #uncover((3, 4))[
         #box(stroke: 2pt + red)[
           #v(1em) ~~~ $|K| >= macron(epsilon)M$ ~~~ #v(1em)
         ]
       ]
     ],
     [
-      #uncover((2, 3))[
+      #uncover((3, 4))[
         #box(stroke: 2pt + red)[
           #v(1em) ~~~ $|K| < macron(epsilon) M$ ~~~ #v(1em)
         ]
@@ -490,7 +490,7 @@
   )
 
   #set text(size: 30pt) 
-  #uncover(3)[$G$ is 3-colorable $arrow.r.l.double$ $|K| >= macron(epsilon)M$. ]
+  #uncover(4)[ $G$ is $3$-colorable $arrow.r.l.double$ $|K| >= macron(epsilon)M$. ]
   ]
 ]
 
@@ -498,84 +498,118 @@
   title: [Building $G'$],
 )[
  Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
+ - an input graph $G$;
  - $c log n$ random bits;
  - $q$ bits from the certificate.
 
+ #v(1em)
+
  #uncover(2)[
-   *Observation:*
-    Suppose on random string $R$ the verifier reads the bits at positions $i_1, ..., i_q$. Then, whether the verifier accepts or not only depends on $R$ and $Pi(i_1), ..., Pi(i_q)$.
+   *Reminder:* For a fixed $G$, the verifier decides whether to accept or reject based on $R$ and $Pi(i_1), ..., Pi(i_q)$.
  ]
- // On input $G$, consider the $n^c 2^q$ possible runs of the algorithm.
 ]
 
 #slide(
   title: [Nodes of $G'$],
 )[
-  #grid(columns: (0.6fr, 0.4fr), [
-    The information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ is an _accepting transcript_ if:
-    - on the random string $R$, the verifier reads the bits at positions $i_1, ..., i_q$ and
-    - reading the bits $Pi(i_1), ..., Pi(i_q)$ causes the verifier to accept.
-  ], [
-    #include "./graphics/accepting_transcripts.typ"
-  ]
+  #grid(columns: (0.6fr, 0.4fr),
+    [
+      The information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ is an _accepting transcript_ if:
+      - on the random string $R$, the verifier reads the bits at positions $i_1, ..., i_q$ and
+      - reading the bits $Pi(i_1), ..., Pi(i_q)$ causes the verifier to accept.
+
+      #uncover((2, 3))[
+        Nodes of $G' = $ $\{ chevron.l R; Pi(i_1)...Pi(i_q) chevron.r : V$ accepts$\}$
+      ]
+    ],
+    [
+      #only((1, 2))[ #include "./graphics/transcripts.typ" ]
+      #only(3)[ #include "./graphics/accepting_transcripts.typ" ]
+    ]
   )
 ]
 
 #slide(
   title: [Edges of $G'$],
 )[
-  Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
-  
-  Consider the graph $G'$ on all the accepting transcripts, where
+  #grid(columns: (0.6fr, 0.4fr),
+    [
+      Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
+      
+      #v(1em)
 
-  #set align(center)
-  $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are connected
-  $arrow.l.r.double.long$
-  they are consistent.
-
-  #v(1em)
-  #set align(left)
-  #uncover(2)[
-    *Key idea:* cliques $K$ in $G'$ $arrow.double$ partial certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$, where every $Pi$ extending $tilde(Pi)_K$ is accepted with probability at least $(|K|) / n^c$.
-  ]
+      #set align(center)
+      #uncover((2, 3))[
+        #set text(size: 25pt)
+        Two accepting transcript are connected in $G'$
+        $arrow.l.r.double$
+        they are consistent.
+      ]
+    ],
+    [
+      #only((1, 2))[ #include "./graphics/accepting_transcripts.typ" ]
+      #only(3)[ #include "./graphics/accepting_transcripts_with_edges.typ" ]
+    ]
+  )
 ]
 
 #slide(
-  title: [Proof],
+  title: [Key idea],
 )[
-  #grid(columns: (0.5fr, 0.5fr), rows: (0.5fr, 0.4fr, 0.1fr),
-  [
-    #set align(center)
-    #scale(55%)[
-        #include "./graphics/three_colorable_graph.typ"
+  #grid(columns: (0.55fr, 0.05fr, 0.4fr),
+    [
+      #set align(center)
+      #set text(size: 25pt)
+      Cliques $K$ in $G'$ give partial \
+      certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
+      where for every $Pi$ extending $tilde(Pi)_K$
+
+      $ "Pr"[V "accepts" Pi] >= (|K|)/n^c. $
+    ],
+    [
+    ],
+    [
+      #include "./graphics/accepting_transcripts_with_edges.typ"
     ]
-  ],
-  [
-    #set align(center)
-    #scale(70%)[
-      #include "./graphics/four_clique.typ"
+  )
+]
+
+#slide(
+  title: [Putting all pieces together],
+)[
+  #align(center + horizon)[
+  #table(
+    columns: (0.5fr, 0.5fr),
+    rows: (8em, 4em, 4em, auto),
+    stroke: none,
+    align: center + horizon,
+    fill: (x, y) => if y == 0 { none } else { none },
+    table.header(
+      [
+        #scale(50%)[ #include "./graphics/three_colorable_graph.typ" ]
+      ],
+      [
+        #scale(70%)[ #include "./graphics/four_clique.typ" ]
+      ]
+    ),
+    [There is a \ valid certificate $Pi$], [Every $Pi$ is accepted at most \ $delta n^c$ out of $n^c$ times],
+    [
+      #uncover(2)[
+        $omega(G') = n^c$
+      ]
+    ],
+    [
+      #uncover(2)[
+        $omega(G') < delta n^c < macron(epsilon) n^c$
+      ]
+    ],
+    [
+    ],
+    [
+      #uncover(2)[ #align(right)[$qed$] ]
     ]
-  ],
-  [
-    #set align(left + top)
-    $G$ is $3$-colorable
-    #set list(marker: ([$arrow.double$],))
-      - valid certificate $Pi$;
-      - $n^c$-clique in $G'$.
-  ],
-  [
-    #set align(left + top)
-    #set list(marker: ([$arrow.double$],))
-    $G$ is not $3$-colorable
-    #set list(marker: ([$arrow.double$],))
-    - every certificate is accepted at most $delta n^c$ out of $n^c$ times;
-    - cliques of $G'$ are bounded by $delta n^c < macron(epsilon) n^c$.
-  ],
-  [
-  ],
-  [
-    #align(right)[$qed$]
-  ])
+  )
+  ]
 ]
 
 /*
@@ -739,5 +773,6 @@
 // https://people.csail.mit.edu/dmoshkov/courses/pcp/pcp-history.pdf
 
 #empty-slide()[
+  #set text(size: 40pt)
   Thank you! Questions?
 ]
