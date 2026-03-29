@@ -36,7 +36,7 @@
 
 #let queries = (
   (1, 3, 7, 8, 13),
-  (2, 3, 6, 10, 11),
+  (2, 4, 7, 10, 11),
 )
 
 #for j in (0, 1) {
@@ -156,11 +156,13 @@
         }
 
         // Frecce per le query agli indici specifici della prova
-        for q in queries.at(j) {
+        for i in range(queries.at(j).len()) {
+          let q = queries.at(j).at(i)
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
-            (verifier_mid_x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
+            (origin-x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
             (target-x, target-y), // Punto di destinazione: base della cella
             mark: (end: "triangle", size: 0.2, fill: color_arrow, stroke: color_arrow),
             stroke: 1pt + color_arrow
@@ -210,11 +212,13 @@
         }
 
         // Frecce per le query agli indici specifici della prova
-        for q in queries.at(j) {
+        for i in range(queries.at(j).len()) {
+          let q = queries.at(j).at(i)
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
-            (verifier_mid_x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
+            (origin-x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
             (target-x, target-y), // Punto di destinazione: base della cella
             mark: (end: "triangle", size: 0.2, fill: color_arrow, stroke: color_arrow),
             stroke: 1pt + color_arrow
@@ -268,11 +272,13 @@
         }
 
         // Frecce per le query agli indici specifici della prova
-        for q in queries.at(j) {
+        for i in range(queries.at(j).len()) {
+          let q = queries.at(j).at(i)
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
-            (verifier_mid_x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
+            (origin-x, verifier_top_y), // Punto di origine: centro-alto del Verificatore
             (target-x, target-y), // Punto di destinazione: base della cella
             mark: (end: "triangle", size: 0.2, fill: color_arrow, stroke: color_arrow),
             stroke: 1pt + color_arrow
