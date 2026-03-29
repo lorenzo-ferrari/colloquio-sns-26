@@ -15,11 +15,30 @@
     https://typst.app/docs/reference/text/text/#parameters-font
 */
 
+#let inline-problem-box(title: "Problem", body) = block(
+  width: 100%,
+  fill: rgb("#eef8fc"),
+  stroke: 2pt + rgb("#1a8cbd"),
+  grid(
+    columns: (auto, 1fr),
+    align: (center + horizon, left + horizon),
+    block(
+      fill: rgb("#1a8cbd"),
+      inset: (x: 12pt, y: 10pt),
+      text(fill: white, weight: "bold", title)
+    ),
+    block(
+      inset: 10pt,
+      body
+    )
+  )
+)
+
 #set text(lang: "en", size: 20pt)
 #show: sns-polylux-template.with(
   aspect-ratio    : "16-9",
-  title           : [Hard Approximations],
-  subtitle        : [PCPs and approximation hardness of MAX-CLIQUE],
+  title           : [The PCP Theorem],
+  subtitle        : [and its consequences for the approximation of hard problems],
   event           : [Scuola Normale Superiore - Aprile 2026], // lo tengo?
   short-title     : [],
   short-event     : [], // Scuola Normale Superiore — 04/2026],
@@ -45,7 +64,7 @@
 
 #title-slide()
 
-#toc-slide( title: [Table of Contents] )
+// #toc-slide( title: [Table of Contents] )
 
 #new-section-slide([P vs NP])
 
@@ -57,8 +76,13 @@
 #slide(
   title: [P: 2-Colorability]
 )[
-  #set align(center)
-  #include "./graphics/big_two_colored_graph.typ"
+  #colorbox(color: "blue", title: [Problem])[
+    #set text(size: 9mm)
+    #align(center)[
+      Given a graph $G(V, E)$, decide whether it is $2$-colorable.
+    ]
+    \
+  ]
 ]
 
 #slide(
@@ -79,17 +103,58 @@
 ]
 
 #slide(
+  title: [What does _efficient_ mean?]
+)[
+  #align(center)[
+    #set text(size: 16mm)
+
+    *efficient* $arrow.l.r.double$ *polynomial time*.
+
+    #set text(size: 9mm)
+    #uncover(2)[
+      $2$-Colorability can be solved efficiently in $cal(O)(|V| + |E|)$.
+    ]
+  ]
+]
+
+#slide(
+  title: [NP: 3-Colorability]
+)[
+  #colorbox(color: "blue", title: [Problem])[
+    #set text(size: 9mm)
+    #align(center)[
+      Given a graph $G(V, E)$, determine whether it is $3$-colorable.
+    ]
+    \
+  ]
+
+  #uncover(2)[
+    #align(center)[
+      #set text(size: 16mm, red)
+      *DRASTIC CHANGE!*
+    ]
+  ]
+]
+
+
+#slide(
   title: [NP: 3-Colorability]
 )[
   #grid(columns: (0.4fr, 0.6fr),[
     #set align(center)
-    #include "./graphics/three_colorable_graph.typ"
+    #only((1, 2, 3))[#include "./graphics/three_colorable_graph.typ"]
+    #only(4)[
+      #figure(
+        image("./pics/kurt-godel.jpg", width: 80%)
+      )
+    ]
   ],
   [
-    #item-by-item[
-      - No _efficient_ (= polynomial-time) algorithm is known.
+    #v(1em)
+    #item-by-item(start: 2)[
+      - No efficient algorithm is known.
       - It is conjectured it doesn't exist ($"P"$ vs $"NP"$).
-      - If it did, the existence of mathematical proofs could be decided efficiently. // with respect to the length of the proof
+      - If it did, mathematical proofs could be _found_ efficiently. // with respect to the length of the proof
     ]
   ])
 ]
@@ -134,41 +199,10 @@
     Is $"P"$ a proper subset of $"NP"$?
     #v(1.5em)
   ]
-]
 
-#slide(
-  title: [NP-Hard Problems]
-)[
-  #set align(center)
-  // If $"P" != "NP"$, then there isn't an efficient algorithm for...
-  $"P" != "NP" arrow.double.long$ There isn't an efficient algorithm for
-
-  #v(1em)
-
-  #box(height: 13em)[
-    #only(1)[
-      *Maximum Clique*
-
-      #scale(65%)[
-        #include "./graphics/max_clique.typ"
-      ]
-    ]
-    #only(2)[
-      *Hamiltonian Cycle*
-
-      #scale(65%)[
-        #include "./graphics/hamiltonian_cycle.typ"
-      ]
-    ]
-    #only(3)[
-      *Chromatic Number*
-      #scale(65%)[
-        #include "./graphics/chromatic_number.typ"
-      ]
-    ]
-    #only(4)[
-      *...and many others.*
-    ]
+  #align(center)[
+    Is it true that whenever solutions to an algorithmic problem can be verified \
+    efficiently, they can also be computed efficiently?
   ]
 ]
 
@@ -182,19 +216,36 @@
 // immaginiamo di avere la dimostrazione di un problema e di adottare la seguente procedura di verifica piuttosto sbrigativa
 #new-section-slide([The PCP Theorem])
 
+#slide()[
+  #grid(columns: (0.5fr, 0.5fr), [
+    The PCP Theorem gives a different and surprising characterization of NP.
+
+    Informally,
+    - you are handed a proof in a certain format;
+    - you select, say, 100 lines at random;
+    - you consider the proof valid $arrow.double.r.l$ you do not find mistakes.
+  ],
+  [
+      #figure(
+        image("./pics/nyt.jpg") // width: 80%)
+      )
+  ])
+]
+
 #slide(
   title: [The class $"PCP"(c log n, q)$],
 )[
-  Let $c, q in ZZ^+$ be constants. Given a proof $Pi : ZZ^+ -> {0, 1}$ and an efficient probabilistic verifier $V$:
-  - on input $x in {0, 1}^n$, $V$ reads a random string $R$ of up to $c log n$ bits;
+  // forse ci va davvero il disegno
+  Let $c, q in ZZ^+$ be constants and $V$ be an efficient probabilistic verifier. On input #box[$x in {0, 1}^n$], to verify a proof #box[$Pi: ZZ^+ -> {0, 1}$]:
+  - $V$ generates a random string $R$ of up to $c log n$ bits;
   - based on $R$, $V$ chooses $q$ locations $i_1, ..., i_q$ of the proof and reads the corresponding bits $Pi(i_1), ..., Pi(i_q)$;
   - based on $R$ and $Pi(i_1), ..., Pi(i_q)$, $V$ decides whether to accept or reject.
 ]
 
 #slide()[
-  #colorbox(color :"green", title: [Definition ($"PCP"_(1/2) (c log n, q)$)])[
+  #colorbox(color :"green", title: [Definition ($"PCP"(c log n, q)$)])[
     #set text(size:9mm)
-    A language $L subset.eq {0, 1}^*$ belongs to the class $"PCP"_(1/2) (c log n, q)$ if there exists a verifier $V$ as above s.t., on input $x$:
+    A language $L subset.eq {0, 1}^*$ belongs to the class $"PCP"(c log n, q)$ if there exists a verifier $V$ as above s.t., on input $x$:
     - if $x in L$, there exists a valid proof $Pi : ZZ^+ -> {0, 1}$ s.t. $Pr[V "accepts"] = 1$;
     - if $x in.not L$, for any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
 
@@ -207,7 +258,7 @@
 ]
 
 #slide(
-  title: [...back to 3-Colorability]
+  title: [Probabilistic verification of 3-Colorability]
 )[
   #grid(columns: (0.5fr, 0.5fr), [
     #set align(center)
@@ -253,7 +304,7 @@
 #focus-slide(
 //  title: [The PCP Theorem],
 )[
-    #colorbox(color:"red", title:"Theorem (ALMSS, '92)")[
+    #colorbox(color:"red", title:"Theorem (AS, '92, ALMSS, '92)")[
     #set align(center)
     #set text(size:15mm)
     #v(1em)
@@ -266,7 +317,7 @@
   // (in)approssimabilità
 ]
 
-#new-section-slide([MAX-CLIQUE])
+#new-section-slide([Hardness of Approximation])
 
 // DISEGNONE
 // Problema molto importante, Input: G, Output: dimensione della cricca massima
@@ -294,8 +345,7 @@
   ]
 
   #uncover(2)[
-    $"MAX-CLIQUE"$: given $G$, determine $omega(G)$, where
-    $ omega: G mapsto max{|K| : K subset.eq G "is a clique"}. $
+    $"MAX-CLIQUE"$: given $G$, determine $omega(G) := max{|K| : K subset.eq G "is a clique"}.$
   ]
 ]
 
@@ -305,7 +355,7 @@
     #colorbox(color :"blue", title:"Fact")[
     #set align(center)
     #set text(size:9mm)
-    $"MAX-CLIQUE"$ is $"NP"$-Hard.
+    If there is an efficient algorithm for $"MAX-CLIQUE"$, then $"P" = "NP"$.
     #v(1em)
   ]
 ]
@@ -323,7 +373,8 @@
   #colorbox(color: "red", title:"Theorem")[
     #set align(center)
     #set text(size:9mm)
-    For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
+    If there is an efficient $epsilon$-approximation of $"MAX-CLIQUE"$ \ for some $epsilon > 0$, then $"P" = "NP"$.
+    // For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
 
     #v(1em)
   ]
@@ -335,18 +386,21 @@
   title: [Proof],
 )[
   // *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
-
   Let $L in "NP"$ be any problem, (wlog) $L = 3"-Colorability"$.
 
-  *Goal:* Deciding if a given $G$ is $3$-colorable $#box[$<=$]_"P"$ $epsilon$-approximating $"MAX-CLIQUE"$.
+  // *Goal:* Deciding if a given $G$ is $3$-colorable $#box[$<=$]_"P"$ $macron(epsilon)$-approximating $"MAX-CLIQUE"$.
 
+  *Goal:* efficient $macron(epsilon)$-approximation of $"MAX-CLIQUE"$ $arrow.double.r$ efficient decision of $3"-Colorability"$.
+
+  #uncover(2)[
   #colorbox(color: "blue", title: "Fundamental reduction")[
     #set text(size:9mm)
-    For any $epsilon > 0$, there is a transformation of graphs $G mapsto G'$ s.t.:
+    There is a transformation of graphs $G mapsto G'$ s.t.:
     1. $G$ is $3$-colorable $arrow.double omega(G') = M$;
-    2. $G$ is not $3$-colorable $arrow.double omega(G') < epsilon M$.
+    2. $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
     #v(1em)
   ]
+]
 ]
 
 #slide(
@@ -354,15 +408,15 @@
 )[
   Given the transformation, to decide whether $G$ is $3$-colorable:
   - build the graph $G'$;
-  - let $|K|$ be an $epsilon$-approximation of $omega(G')$;
-    - if $|K| >= epsilon M$, then $x in L$; #h(1em) #uncover(2)[$arrow.l$ from $2.$]
+  - let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$;
+    - if $|K| >= macron(epsilon) M$, then $x in L$; #h(1em) #uncover(2)[$arrow.l$ from $2.$]
     - otherwise, $x in.not L$. #h(1em) #uncover(2)[$arrow.l$ from $1.$]
 ]
 
 #slide(
   title: [Proof],
 )[
- Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < epsilon$, reading:
+ Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
  - $c log n$ random bits;
  - $q$ bits from the certificate.
 
@@ -385,7 +439,7 @@
 #slide(
   title: [Proof],
 )[
-  Two transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
+  Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
   
   Consider the graph $G'$ on all the accepting transcripts, where
 
@@ -430,7 +484,7 @@
     $G$ is not $3$-colorable
     #set list(marker: ([$arrow.double$],))
     - every certificate is accepted at most $delta n^c$ out of $n^c$ times;
-    - cliques of $G'$ are bounded by $delta n^c < epsilon n^c$.
+    - cliques of $G'$ are bounded by $delta n^c < macron(epsilon) n^c$.
   ],
   [
   ],
@@ -569,21 +623,29 @@
 // ]
 
 #slide(
-  title: [Bibliography],
+  title: [(Partial) history of the PCP Theorem],
 )[
   - (1971) Cook -- _The complexity of theorem-proving procedures_
   - (1972) Karp -- _Reducibility among combinatorial problems_
   - (1973) Levin -- _Universal Sequential Search Problems_
+  - (1991) Feige, Goldwasser, Lovasz, Safra, Szegedy -- _Interactive Proofs and the Hardness of Approximating Cliques_
+  - (1992) Arora, Safra -- _Probabilistic Checking of Proofs: A New Characterization of NP_
   - (1992) Arora, Lung, Motwani, Sudan, Szegedy -- _Proof Verification and the Hardness of Approximation Problems_
-  - (1996) Feige, Goldwasser, Lovasz, Safra, Szegedy -- _Interactive Proofs and the Hardness of Approximating Cliques_
   - (2001) Håstad -- _Some Optimal Inapproximability Results_
   - (2006) Dinur -- _The PCP Theorem by Gap Amplification_
+]
+
+#slide(
+  title: [...and some more bibliography]
+)[
+  - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
 ]
 
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
 // https://www.cs.umd.edu/~gasarch/TOPICS/pcp/fglss.pdf
 // https://kam.mff.cuni.cz/~matousek/cla/dinur-pcp-combinatorial-proof.pdf
+// https://people.csail.mit.edu/dmoshkov/courses/pcp/pcp-history.pdf
 
 #empty-slide()[
   Thank you! Questions?

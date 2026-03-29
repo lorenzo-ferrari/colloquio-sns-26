@@ -4,7 +4,7 @@
 
 
 #figure(
-  canvas(length: 1.1cm, {
+  canvas(length: 1.0cm, {
     import draw: *
     let nodes = (
       "5": (3.2, 6.5),

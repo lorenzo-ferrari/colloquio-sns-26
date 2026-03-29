@@ -4,7 +4,7 @@
 
 
 #figure(
-  canvas(length: 1.1cm, {
+  canvas(length: 1.0cm, {
     import draw: *
     let nodes = (
       "5": (3.2, 6.5),
@@ -59,7 +59,7 @@
     // Generazione dei vertici
     for (id, pos) in nodes {
       if highlight.contains(id) {
-        circle(pos, radius: 0.3, fill: red_sns, stroke: 1.5pt + dark_blue_sns)
+        circle(pos, radius: 0.3, fill: red_sns, stroke: 1.5pt + red_sns)
         // content(pos, text(fill: black, weight: "bold", size: 12pt)[#id])
       } else {
         circle(pos, radius: 0.3, fill: white_sns, stroke: 1.5pt + dark_blue_sns)
