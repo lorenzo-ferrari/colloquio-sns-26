@@ -254,8 +254,7 @@
   - #uncover(4)[ - based on $R$ and $Pi(i_1), ..., Pi(i_q)$, $V$ decides whether to accept or reject. ]
 ]
 
-#slide(
-)[
+#slide()[
   #set align(center)
   #include "./graphics/pcp_verification.typ"
 ]
@@ -268,8 +267,8 @@
     #include "./graphics/unknown_three_coloring.typ"
 
     #box(height: 1em)[
-      #only(4)[ *ACCEPT*]
-      #only(8)[ *REJECT*]
+      #only(4)[ #text(size: 30pt, green)[*ACCEPT*] ]
+      #only(8)[ #text(size: 30pt, red)[*REJECT*] ]
     ]
   ],
   [
@@ -496,7 +495,7 @@
 ]
 
 #slide(
-  title: [Here comes the PCP Theorem],
+  title: [Building $G'$],
 )[
  Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
  - $c log n$ random bits;
@@ -506,13 +505,11 @@
    *Observation:*
     Suppose on random string $R$ the verifier reads the bits at positions $i_1, ..., i_q$. Then, whether the verifier accepts or not only depends on $R$ and $Pi(i_1), ..., Pi(i_q)$.
  ]
-
-
  // On input $G$, consider the $n^c 2^q$ possible runs of the algorithm.
 ]
 
 #slide(
-  title: [Proof],
+  title: [Nodes of $G'$],
 )[
   #grid(columns: (0.6fr, 0.4fr), [
     The information $chevron.l R; Pi(i_1)...Pi(i_q) chevron.r$ is an _accepting transcript_ if:
@@ -525,7 +522,7 @@
 ]
 
 #slide(
-  title: [Proof],
+  title: [Edges of $G'$],
 )[
   Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
   
