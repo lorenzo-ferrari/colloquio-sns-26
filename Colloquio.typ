@@ -64,8 +64,6 @@
 
 #title-slide()
 
-// #toc-slide( title: [Table of Contents] )
-
 #new-section-slide([P vs NP])
 
 // slide P: 2-col
@@ -81,7 +79,7 @@
     #align(center)[
       Given a graph $G(V, E)$, decide whether it is $2$-colorable.
     ]
-    \
+    #v(1em)
   ]
 ]
 
@@ -106,13 +104,13 @@
   title: [What does _efficient_ mean?]
 )[
   #align(center)[
-    #set text(size: 16mm)
+    #set text(size: 50pt)
 
     *efficient* $arrow.l.r.double$ *polynomial time*.
 
-    #set text(size: 9mm)
+    #set text(size: 30pt)
     #uncover(2)[
-      $2$-Colorability can be solved efficiently in $cal(O)(|V| + |E|)$.
+      $2$-Colorability can be solved efficiently in $O(|V| + |E|)$.
     ]
   ]
 ]
@@ -125,12 +123,12 @@
     #align(center)[
       Given a graph $G(V, E)$, determine whether it is $3$-colorable.
     ]
-    \
+    #v(1em)
   ]
 
   #uncover(2)[
     #align(center)[
-      #set text(size: 16mm, red)
+      #set text(size: 3em, red)
       *DRASTIC CHANGE!*
     ]
   ]
@@ -150,12 +148,19 @@
     ]
   ],
   [
-    #v(1em)
-    #item-by-item(start: 2)[
-      - No efficient algorithm is known.
-      - It is conjectured it doesn't exist ($"P"$ vs $"NP"$).
-      - If it did, mathematical proofs could be _found_ efficiently. // with respect to the length of the proof
+    /*
+    #align(center)[
+      #set text(size: 16mm, red)
+      *DRASTIC CHANGE!*
     ]
+    */
+    #v(1em)
+    #set list(marker: (none, [•]))
+    #list(
+      uncover((2, 3, 4))[- No efficient algorithm is known. ],
+      uncover((3, 4))[- It is conjectured it doesn't exist ($"P"$ vs $"NP"$). ],
+      uncover(4)[- If it did, mathematical proofs could be _found_ efficiently. ], // with respect to the length of the proof
+    )
   ])
 ]
 
@@ -166,33 +171,39 @@
     #set align(center)
     #include "./graphics/wrong_three_coloring.typ"
   ],[
-    Correctness can be efficiently _verified_.
+    #set align(center)
+    #set text(2em)
+    Correctness can be efficiently *verified*.
   ])
 ]
 
 #slide(
   title: [P vs NP]
 )[
-  #colorbox(color :"green", title: [Definition (P)])[
-    #set align(center)
-    #set text(size:9mm)
-    Decision problems whose solution can be found efficiently.
+  #grid(columns: (0.45fr, 0.04fr, 0.45fr), [
+    #colorbox(color :"green", title: [#text(30pt)[P ~~]])[
+      #set align(center)
+      #set text(size:9mm)
+      Decision problems \ whose solution \ can be *found* efficiently.
 
-    #v(1em)
-  ]
-  #colorbox(color :"green", title: [Definition (NP)])[
-    #set align(center)
-    #set text(size:9mm)
-    Decision problems whose solution can be verified efficiently.
+      #v(1em)
+    ]
+    ],[
+    ],[
+    #colorbox(color :"green", title: [#text(30pt)[NP]])[
+      #set align(center)
+      #set text(size:9mm)
+      Decision problems \ whose solution \ can be *verified* efficiently.
 
-    #v(1em)
-  ]
+      #v(1em)
+    ]
+  ])
 ]
 
 #slide(
   title: [Millenium Problem]
 )[
-  #colorbox(color :"blue", title: [P vs NP])[
+  #colorbox(color :"blue", title: [#text(30pt)[P vs NP]])[
     #set align(center)
     #set text(size:15mm)
     #v(0.8em)
@@ -201,8 +212,7 @@
   ]
 
   #align(center)[
-    Is it true that whenever solutions to an algorithmic problem can be verified \
-    efficiently, they can also be computed efficiently?
+    #uncover(2)[ Is it true that whenever solutions to an algorithmic problem can be \ verified efficiently, they can also be computed efficiently? ]
   ]
 ]
 
@@ -218,12 +228,13 @@
 
 #slide()[
   #grid(columns: (0.5fr, 0.5fr), [
-    The PCP Theorem gives a different and surprising characterization of NP.
+    The PCP Theorem gives a different and surprising characterization of $"NP"$.
 
     Informally,
-    - you are handed a proof in a certain format;
-    - you select, say, 100 lines at random;
-    - you consider the proof valid $arrow.double.r.l$ you do not find mistakes.
+    #set list(marker: (none, [•]))
+    - #uncover((2, 3, 4))[ - you are handed a proof in a certain format; ]
+    - #uncover((3, 4))[ - you select, say, 100 lines at random; ]
+    - #uncover(4)[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
   ],
   [
       #figure(
@@ -237,24 +248,17 @@
 )[
   // forse ci va davvero il disegno
   Let $c, q in ZZ^+$ be constants and $V$ be an efficient probabilistic verifier. On input #box[$x in {0, 1}^n$], to verify a proof #box[$Pi: ZZ^+ -> {0, 1}$]:
-  - $V$ generates a random string $R$ of up to $c log n$ bits;
-  - based on $R$, $V$ chooses $q$ locations $i_1, ..., i_q$ of the proof and reads the corresponding bits $Pi(i_1), ..., Pi(i_q)$;
-  - based on $R$ and $Pi(i_1), ..., Pi(i_q)$, $V$ decides whether to accept or reject.
+  #set list(marker: (none, [•]))
+  - #uncover((2,3,4))[ - $V$ reads a random string $R$ of up to $c log n$ bits; ]
+  - #uncover((3,4))[ - based on $R$, $V$ chooses $q$ locations $i_1, ..., i_q$ of the proof and reads the corresponding bits $Pi(i_1), ..., Pi(i_q)$; ]
+  - #uncover(4)[ - based on $R$ and $Pi(i_1), ..., Pi(i_q)$, $V$ decides whether to accept or reject. ]
 ]
 
-#slide()[
-  #colorbox(color :"green", title: [Definition ($"PCP"(c log n, q)$)])[
-    #set text(size:9mm)
-    A language $L subset.eq {0, 1}^*$ belongs to the class $"PCP"(c log n, q)$ if there exists a verifier $V$ as above s.t., on input $x$:
-    - if $x in L$, there exists a valid proof $Pi : ZZ^+ -> {0, 1}$ s.t. $Pr[V "accepts"] = 1$;
-    - if $x in.not L$, for any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
-
-    #v(1em)
-  ]
-
-  #uncover(2)[
-    *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
-  ]
+#slide(
+  title: [PCP Verification]
+)[
+  #set align(center)
+  #include "./graphics/pcp_verification.typ"
 ]
 
 #slide(
@@ -286,25 +290,70 @@
   [
     Colorings could violate only a fraction $1 / m$ of the constraints.
 
-    $arrow.double$ The naïve proof system is not good enough.
+    // $arrow.double$ The naïve proof system is not good enough.
+    $arrow.double$ Very unlikely to catch the unsatisfied edge...
   ])
 ]
 
-#slide()[
-  #colorbox(color: "blue", title: "Key fact")[
-    #set text(size: 9mm)
-      There exists a transformation $G mapsto G'$ such that
-      - $G$ $3$-colorable $arrow.double$ $G'$ $3$-colorable;
-      - $G$ not $3$-colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
+#slide(
+  title: [The class $"PCP"(c log n, q)$],
+)[
+    #set text(size:9mm)
+    A decision problem belongs to the class $"PCP"(c log n, q)$ if there exists a verifier $V$ as above s.t.:
+
+  #grid(columns: (0.45fr, 0.04fr, 0.45fr), [
+    #colorbox(color :"green", title: [on a YES instance])[
+      #set align(center)
+      #set text(size:9mm)
+      There is a #box[$Pi : ZZ^+ -> {0, 1}$] s.t. $Pr[V "accepts"] = 1$.
+      #v(1em)
+    ]
+    ],[
+    ],[
+    #colorbox(color :"green", title: [on a NO instance])[
+      #set align(center)
+      #set text(size:9mm)
+      For any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
+      #v(1em)
+    ]
+  ])
+
     #v(1em)
+
+  #uncover(2)[
+    *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
   ]
 ]
 
 
-#focus-slide(
+#slide(
+  title: [So, is 3-Colorability in $"PCP"(O(log n), O(1))$?],
+)[
+  #v(25mm)
+  #uncover((2,3))[
+    #align(center)[
+      #set text(size: 20mm, green)
+      *YES!*
+    ]
+  ]
+  #uncover(3)[
+    #colorbox(color: "blue", title: "Key")[
+      #set text(size: 9mm)
+        There exists a transformation $G mapsto G'$ such that
+        - $G$ $3$-colorable $arrow.double$ $G'$ $3$-colorable;
+        - $G$ not $3$-colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
+      #v(1em)
+    ]
+  ]
+]
+
+
+#slide(
 //  title: [The PCP Theorem],
 )[
-    #colorbox(color:"red", title:"Theorem (AS, '92, ALMSS, '92)")[
+  // che faccio? 
+    // #colorbox(color:"red", title:"Theorem (AS, '92, ALMSS, '92)")[
+    #colorbox(color:"red", title:"Arora and Safra (1992); Arora, Lund, Motwani, Sudan and Szegedy (1992)")[
     #set align(center)
     #set text(size:15mm)
     #v(1em)
@@ -352,7 +401,10 @@
 #slide(
   title: [MAX-CLIQUE is Hard],
 )[
-    #colorbox(color :"blue", title:"Fact")[
+    #figure(
+      image("./pics/clique-karp.png") // width: 80%)
+    )
+    #colorbox(color :"red", title:"Karp (1972)")[
     #set align(center)
     #set text(size:9mm)
     If there is an efficient algorithm for $"MAX-CLIQUE"$, then $"P" = "NP"$.
@@ -370,7 +422,7 @@
 #slide(
   title: [Hardness of approximating MAX-CLIQUE],
 )[
-  #colorbox(color: "red", title:"Theorem")[
+  #colorbox(color: "red", title:"Feige, Goldwasser, Lovasz, Safra, Szegedy (1991)")[
     #set align(center)
     #set text(size:9mm)
     If there is an efficient $epsilon$-approximation of $"MAX-CLIQUE"$ \ for some $epsilon > 0$, then $"P" = "NP"$.
@@ -396,31 +448,68 @@
   #colorbox(color: "blue", title: "Fundamental reduction")[
     #set text(size:9mm)
     There is a transformation of graphs $G mapsto G'$ s.t.:
-    1. $G$ is $3$-colorable $arrow.double omega(G') = M$;
-    2. $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
+    - $G$ is $3$-colorable $arrow.double omega(G') = M$;
+    - $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
     #v(1em)
   ]
 ]
 ]
 
 #slide(
-  title: [Proof],
+  title: [Decision procedure],
 )[
-  Given the transformation, to decide whether $G$ is $3$-colorable:
-  - build the graph $G'$;
-  - let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$;
-    - if $|K| >= macron(epsilon) M$, then $x in L$; #h(1em) #uncover(2)[$arrow.l$ from $2.$]
-    - otherwise, $x in.not L$. #h(1em) #uncover(2)[$arrow.l$ from $1.$]
+  Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$.
+  #align(center)[
+  #table(
+    columns: (0.5fr, 0.5fr),
+    rows: (5em, 3em, 3em),
+    stroke: none,
+    align: center + horizon,
+    fill: (x, y) => if y == 0 { none } else { none },
+    table.header(
+      [
+        #scale(40%)[ #include "./graphics/three_colorable_graph.typ" ]
+      ],
+      [
+        #scale(60%)[ #include "./graphics/four_clique.typ" ]
+      ]
+    ),
+    [$omega(G') = M$], [$omega(G') < macron(epsilon) M$],
+    [
+      #uncover((2, 3))[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $|K| >= macron(epsilon)M$ ~~~ #v(1em)
+        ]
+      ]
+    ],
+    [
+      #uncover((2, 3))[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $|K| < macron(epsilon) M$ ~~~ #v(1em)
+        ]
+      ]
+    ]
+  )
+
+  #set text(size: 30pt) 
+  #uncover(3)[$G$ is 3-colorable $arrow.r.l.double$ $|K| >= macron(epsilon)M$. ]
+  ]
 ]
 
 #slide(
-  title: [Proof],
+  title: [Here comes the PCP Theorem],
 )[
  Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
  - $c log n$ random bits;
  - $q$ bits from the certificate.
 
- On input $G$, consider the $n^c 2^q$ possible runs of the algorithm.
+ #uncover(2)[
+   *Observation:*
+    Suppose on random string $R$ the verifier reads the bits at positions $i_1, ..., i_q$. Then, whether the verifier accepts or not only depends on $R$ and $Pi(i_1), ..., Pi(i_q)$.
+ ]
+
+
+ // On input $G$, consider the $n^c 2^q$ possible runs of the algorithm.
 ]
 
 #slide(
@@ -493,6 +582,7 @@
   ])
 ]
 
+/*
 #new-section-slide([Further Results])
 
 #slide(
@@ -605,6 +695,7 @@
     ]
   ])
 ]
+*/
 
 // #slide(
 //   title: [Inapproximability of MAX-3SAT],
@@ -636,10 +727,14 @@
 ]
 
 #slide(
-  title: [...and some more bibliography]
+  title: [Some more bibliography]
 )[
+// TODO: leggere
+//  - (1990) Panconesi, Ranjan -- _Quantifiers and approximation_
   - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
+  - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
+  - (2012) Arora, Barak -- _Computational Caomplexity: A Modern Approach_
 ]
 
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
