@@ -592,6 +592,13 @@
 ]
 
 #slide(
+  title: [Key idea]
+)[
+  #set align(center)
+  #include "./graphics/clique_pcp_verification.typ"
+]
+
+#slide(
   title: [Putting all pieces together],
 )[
   #align(center + horizon)[
