@@ -44,9 +44,29 @@
 
 // Funzione centralizzata per generare il blocco di testo degli scenari
 #let transcripts_text(j) = text(size: 25pt)[
-  #text(fill: if j == 0 { green } else { black } )[ $chevron.l R_1; 1000 chevron.r$] \
-  #text(fill: if j == 1 { green } else { black } )[ $chevron.l R_2; 1010 chevron.r$] \
-  #text(fill: if j == 2 { green } else { black } )[ $chevron.l R_3; 1001 chevron.r$] \
+  #text(fill: if j >= 0 { green } else { black } )[ $chevron.l R_1; 1000 chevron.r$] \
+  #text(fill: if j >= 1 { green } else { black } )[ $chevron.l R_2; 1010 chevron.r$] \
+  #text(fill: if j >= 2 { green } else { black } )[ $chevron.l R_3; 1001 chevron.r$] \
+
+/*
+  #box(height: 1.1em)[ #text[ $chevron.l R_1; 1000 chevron.r$ #if j >= 0 [#emoji.checkmark] else []] ] \
+  #box(height: 1.1em)[ #text[ $chevron.l R_2; 1010 chevron.r$ #if j >= 1 [#emoji.checkmark] else []] ] \
+  #box(height: 1.1em)[ #text[ $chevron.l R_3; 1001 chevron.r$ #if j >= 2 [#emoji.checkmark] else []] ] \
+*/
+
+/*
+  #table(
+    columns: (5em, 1em),
+    rows: (0em, 1.2em, 1.2em, 1.2em),
+    stroke: none,
+    table.header(
+      [],[]
+    ),
+    [ $chevron.l R_1; 1000 chevron.r$ ], [ #if j >= 0 [#emoji.checkmark] else [] ],
+    [ $chevron.l R_2; 1010 chevron.r$ ], [ #if j >= 1 [#emoji.checkmark] else [] ],
+    [ $chevron.l R_3; 1001 chevron.r$ ], [ #if j >= 2 [#emoji.checkmark] else [] ],
+  )
+*/
 ]
 
 #figure(

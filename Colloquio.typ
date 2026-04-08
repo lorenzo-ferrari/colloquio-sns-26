@@ -2,6 +2,7 @@
 // #import "@preview/sns-polylux-template:0.2.0": *
 #import "sns-polylux-template.typ": *
 #import "@preview/showybox:2.0.4": showybox
+// #import "@preview/colorful-boxes:1.4.3": *
 #import "@preview/cetz:0.4.2": canvas, draw
 #import "graphics/sns_colormap.typ": *
 
@@ -17,11 +18,13 @@
     https://typst.app/docs/reference/text/text/#parameters-font
 */
 
+// #show math.equation: set text(font: ("Roboto", "Fira Sans", "DejaVu Sans"))
+// #show math.equation: set text(font: "Fira Math")
+
 #let custom-box(title: "", color: navy, body) = showybox(
   title: title,
   title-style: (
     weight: "bold",
-    size: 9mm,
   ),
   frame: (
     border-color: color.darken(20%),
@@ -38,6 +41,43 @@
 #let bluebox(title: "", body) = custom-box(title: title, color: dark_blue_sns, body)
 #let greenbox(title: "", body) = custom-box(title: title, color: green_sns, body)
 #let redbox(title: "", body) = custom-box(title: title, color: red_sns, body)
+
+#let stickybox(rotation: 0deg, width: 100%, fill: rgb(255, 240, 172), tape: true, body) = {
+  return rotate(rotation)[
+    #block(width: width)[
+      #layout(size => {
+        let height = measure(image("./pics/background.svg", width: size.width)).height
+        place(
+          bottom + center,
+          dy: 0.6 * height,
+        )[
+          #image("./pics/background.svg", width: size.width)
+        ]
+        box(
+          fill: fill,
+          width: width,
+          inset: (top: if tape { 12pt } else { 8pt }, x: 8pt, bottom: 8pt),
+        )[
+          #body
+          #if tape {
+            place(
+              top + center,
+              // dy: -2mm - 12pt,
+              dy: -8mm,
+            )[
+              #image(
+                "./pics/tape.svg",
+                // width: if type(width) == ratio { calc.clamp(width * 0.35cm / 1cm, 1, 4) * 1cm } else { calc.clamp(width * 0.35 / 1cm, 1, 4) * 1cm },
+                width: 3cm, // if type(width) == ratio { calc.clamp(width * 0.35cm / 1cm, 1, 4) * 1cm } else { calc.clamp(width * 0.35 / 1cm, 1, 4) * 1cm },
+                height: 1cm,
+              )
+            ]
+          }
+        ]
+      })
+    ]
+  ]
+}
 
 #set text(lang: "en", size: 20pt)
 #show: sns-polylux-template.with(
@@ -81,7 +121,7 @@
 )[
 
 
-  #bluebox(title: [Problem])[
+  #bluebox(title: [Problem (2-Colorability)])[
     #set text(size: 9mm)
     #align(center)[
       Given a graph $G(V, E)$, decide whether it is $2$-colorable.
@@ -124,7 +164,7 @@
 #slide(
   title: [NP: 3-Colorability]
 )[
-  #bluebox(title: [Problem])[
+  #bluebox(title: [Problem (3-Colorability)])[
     #set text(size: 9mm)
     #align(center)[
       Given a graph $G(V, E)$, determine whether it is $3$-colorable.
@@ -220,7 +260,7 @@
 #slide(
   title: [Why care about 3-Colorability?]
 )[
-  #redbox(title: [Lovász (1973)])[
+  #redbox(title: [Karp (1972); Lovász (1973)])[
     #set align(center)
     #set text(size:9mm)
     Every problem in $"NP"$ can be formulated in terms of $3$-Colorability.
@@ -389,36 +429,37 @@
 // Problema molto importante, Input: G, Output: dimensione della cricca massima
 // è un problema NP-Hard, come tanti problemi combinatorici
 // Se P != NP, allora non esiste algo polinomiale per
-// MAX-CLIQUE (disegnone)
+// Max-Clique (disegnone)
 // vado avanti -> TSP
 // vado avanti -> Chromatic Number
 
 #slide(
-  title: [MAX-CLIQUE]
+  title: [Max-Clique],
+)[
+    #greenbox(title:"Definition (Clique)")[
+    #set align(center)
+    #set text(size: 9mm)
+    A _clique_ in a graph $G(V, E)$ is a complete subgraph of $G$, \ i.e. a subset of pairwise adjacent nodes.
+  ]
+
+  #uncover(2)[
+    #bluebox(title:"Problem (Max-Clique)")[
+      #set align(center)
+      #set text(size: 9mm)
+      Given $G$, determine $omega(G) := max{|K| : K subset.eq G$ is a clique$}.$
+    ]
+  ]
+]
+
+#slide(
+  title: [Max-Clique]
 )[
   #set align(center)
   #include "./graphics/max_clique.typ"
 ]
 
 #slide(
-  title: [MAX-CLIQUE],
-)[
-    #greenbox(title:"Definition (Clique)")[
-    #set align(center)
-    #set text(size:9mm)
-    A _clique_ in a graph $G(V, E)$ is a complete subgraph of $G$, i.e. a subset of pairwise adjacent nodes.
-  ]
-
-  #v(1em)
-
-  #set align(center)
-  #uncover(2)[
-    $"MAX-CLIQUE"$: given $G$, determine $omega(G) := max{|K| : K subset.eq G "is a clique"}.$
-  ]
-]
-
-#slide(
-  title: [MAX-CLIQUE is Hard],
+  title: [Max-Clique is Hard],
 )[
     #figure(
       image("./pics/clique-karp.png") // width: 80%)
@@ -426,7 +467,7 @@
     #redbox(title:"Karp (1972)")[
     #set align(center)
     #set text(size:9mm)
-    If there is an efficient algorithm for $"MAX-CLIQUE"$, then $"P" = "NP"$.
+    If there is an efficient algorithm for $"Max-Clique"$, then $"P" = "NP"$.
   ]
 ]
 
@@ -438,13 +479,13 @@
 ]
 
 #slide(
-  title: [Hardness of approximating MAX-CLIQUE],
+  title: [Hardness of approximating Max-Clique],
 )[
   #redbox(title: "Feige, Goldwasser, Lovász, Safra, Szegedy (1991)")[
     #set align(center)
     #set text(size:9mm)
-    If there is an efficient $epsilon$-approximation of $"MAX-CLIQUE"$ \ for some $epsilon > 0$, then $"P" = "NP"$.
-    // For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
+    If there is an efficient $epsilon$-approximation of $"Max-Clique"$ \ for some $epsilon > 0$, then $"P" = "NP"$.
+    // For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"Max-Clique"$.
   ]
 ]
 
@@ -453,12 +494,10 @@
 #slide(
   title: [Proof],
 )[
-  // *Goal:* If an efficient algorithm $epsilon$-approximates $"MAX-CLIQUE"$, then $"P" = "NP"$.
-  Let $L in "NP"$ be any problem, (wlog) $L = 3"-Colorability"$.
+  // Let $L in "NP"$ be any problem, for example $L = 3"-Colorability"$.
 
-  // *Goal:* Deciding if a given $G$ is $3$-colorable $#box[$<=$]_"P"$ $macron(epsilon)$-approximating $"MAX-CLIQUE"$.
-
-  *Goal:* efficient $macron(epsilon)$-approximation of $"MAX-CLIQUE"$ $arrow.double.r$ efficient decision of $3"-Colorability"$.
+  // *Goal:* efficient $macron(epsilon)$-approximation of $"Max-Clique"$ $arrow.double.r$ efficient decision of $3"-Colorability"$.
+  We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently.
 
   #uncover(2)[
   #bluebox(title: "Fundamental reduction")[
@@ -466,7 +505,6 @@
     There is a transformation of graphs $G mapsto G'$ s.t.:
     - $G$ is $3$-colorable $arrow.double omega(G') = M$;
     - $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
-    #v(1em)
   ]
 ]
 ]
@@ -515,16 +553,33 @@
 #slide(
   title: [Building $G'$],
 )[
- Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
- - an input graph $G$;
- - $c log n$ random bits;
- - $q$ bits from the proof.
+  #grid(
+    columns: (0.6fr, 0.05fr, 0.4fr),
+    [
+      Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
+      - an input graph $G$;
+      - $c log n$ random bits;
+      - $q$ bits from the proof.
+    ],
+    [
+    ],
+    [
+      #uncover(2)[
+        #stickybox(
+          rotation: 3deg,
+          tape: true,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          *Reminder*
 
- #v(1em)
-
- #uncover(2)[
-   *Reminder:* For a fixed $G$, the verifier decides whether to accept or reject based solely on $R$ and $Pi(i_1), ..., Pi(i_q)$.
- ]
+          Fixed $G$, the verifier accepts or rejects based solely on \ $R$ and $Pi(i_1), ..., Pi(i_q)$.
+          #v(.5em)
+        ]
+      ]
+    ]
+  )
 ]
 
 #slide(
@@ -559,7 +614,7 @@
       #set align(center)
       #uncover((2, 3))[
         #set text(size: 25pt)
-        Two accepting transcript are connected in $G'$
+        Two accepting transcript are adjacent in $G'$
         $arrow.l.r.double$
         they are consistent.
       ]
@@ -581,9 +636,9 @@
       #set text(size: 25pt)
       Cliques $K$ in $G'$ correspond to \
       partial proofs $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
-      where for every $Pi$ extending $tilde(Pi)_K$
+      where for every $Pi_K$ extending $tilde(Pi)_K$
 
-      $ "Pr"[V "accepts" Pi] >= (|K|)/n^c. $
+      $ "Pr"[V "accepts" Pi_K] >= (|K|)/n^c. $
     ],
     [
     ],
@@ -652,7 +707,6 @@
     - accepts invalid proofs with probability $<= 1/2 + delta$.
 
     Moreover, the accepting condition is a parity test.
-    #v(1em)
   ]
 ]
 
@@ -673,7 +727,6 @@
   #bluebox(title: "Problem (MAX-2LIN)")[
     #set text(size:9mm)
     Given a system of linear equations over $FF_2$, maximize the number of satisfied equations.
-    #v(1em)
   ]
 
   #v(1em)
@@ -688,7 +741,6 @@
   #redbox(title: "Theorem (Håstad)")[
     #set text(size:9mm)
     For any $epsilon > 0$, it is $"NP"$-Hard to $(1/2 + epsilon)$-approximate $"MAX-2LIN"$.
-    #v(1em)
   ]
 ]
 
@@ -786,8 +838,6 @@
 #slide(
   title: [Some more bibliography]
 )[
-// TODO: leggere
-//  - (1990) Panconesi, Ranjan -- _Quantifiers and approximation_
   - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
   - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
@@ -802,4 +852,16 @@
 #empty-slide()[
   #set text(size: 40pt)
   Thank you! Questions?
+]
+
+// #utils.register-section([])
+
+#slide(
+  hide-section: true,
+  title: [More topics we could talk about]
+)[
+  - What expanders have to do with the PCP Theorem;
+  - A stronger PCP and optimal inapproximability results;
+  - The class $"APX"$ and why $"P" eq.not "NP" arrow.double "PTAS" subset.neq "APX"$;
+  - Inapproximability results for other optimization problems. // (vd. Trevisan, 2004).
 ]
