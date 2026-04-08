@@ -374,7 +374,9 @@
     #redbox(title:"Arora, Safra (1992); Arora, Lund, Motwani, Sudan, Szegedy (1992); Dinur (2006)")[
     #set align(center)
     #set text(size:15mm)
+    #v(.5em)
     $ "NP" = "PCP"(O(log n), O(1)). $
+    #v(.5em)
   ]
   // ci sta dicendo che le dimostrazioni in senso classico e le dimostrazioni "sbrigative" hanno lo stesso potere espressivo
   // conseguenze soprendenti:
