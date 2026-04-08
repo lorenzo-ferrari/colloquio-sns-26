@@ -8,3 +8,4 @@
 #let red_sns = rgb("AB3502")
 #let purple_sns = rgb("4B70FF")
 #let orange_sns = rgb("E69426")
+#let green_sns = rgb("109E7D")  // dai Concerti della Normale

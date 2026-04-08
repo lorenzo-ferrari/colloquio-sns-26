@@ -1,7 +1,9 @@
 #import "@preview/polylux:0.4.0": *
-#import "@preview/sns-polylux-template:0.2.0": *
-#import "@preview/colorful-boxes:1.4.2": *
+// #import "@preview/sns-polylux-template:0.2.0": *
+#import "sns-polylux-template.typ": *
+#import "@preview/showybox:2.0.4": showybox
 #import "@preview/cetz:0.4.2": canvas, draw
+#import "graphics/sns_colormap.typ": *
 
 /*
   ACHTUNG: You should seriously consider downloading
@@ -15,24 +17,27 @@
     https://typst.app/docs/reference/text/text/#parameters-font
 */
 
-#let inline-problem-box(title: "Problem", body) = block(
-  width: 100%,
-  fill: rgb("#eef8fc"),
-  stroke: 2pt + rgb("#1a8cbd"),
-  grid(
-    columns: (auto, 1fr),
-    align: (center + horizon, left + horizon),
-    block(
-      fill: rgb("#1a8cbd"),
-      inset: (x: 12pt, y: 10pt),
-      text(fill: white, weight: "bold", title)
-    ),
-    block(
-      inset: 10pt,
-      body
-    )
-  )
+#let custom-box(title: "", color: navy, body) = showybox(
+  title: title,
+  title-style: (
+    weight: "bold",
+    size: 9mm,
+  ),
+  frame: (
+    border-color: color.darken(20%),
+    title-color: color.darken(10%),
+    body-color: color.lighten(90%),
+    body-inset: (y: 1em, x: 0.5em),
+    radius: 5pt,
+    thickness: 1.5pt,
+  ),
+  shadow: (offset: 3pt, color: gray.lighten(50%)),
+  body
 )
+
+#let bluebox(title: "", body) = custom-box(title: title, color: dark_blue_sns, body)
+#let greenbox(title: "", body) = custom-box(title: title, color: green_sns, body)
+#let redbox(title: "", body) = custom-box(title: title, color: red_sns, body)
 
 #set text(lang: "en", size: 20pt)
 #show: sns-polylux-template.with(
@@ -74,12 +79,13 @@
 #slide(
   title: [P: 2-Colorability]
 )[
-  #colorbox(color: "blue", title: [Problem])[
+
+
+  #bluebox(title: [Problem])[
     #set text(size: 9mm)
     #align(center)[
       Given a graph $G(V, E)$, decide whether it is $2$-colorable.
     ]
-    #v(1em)
   ]
 ]
 
@@ -118,12 +124,11 @@
 #slide(
   title: [NP: 3-Colorability]
 )[
-  #colorbox(color: "blue", title: [Problem])[
+  #bluebox(title: [Problem])[
     #set text(size: 9mm)
     #align(center)[
       Given a graph $G(V, E)$, determine whether it is $3$-colorable.
     ]
-    #v(1em)
   ]
 
   #uncover(2)[
@@ -181,21 +186,17 @@
   title: [P vs NP]
 )[
   #grid(columns: (0.45fr, 0.04fr, 0.45fr), [
-    #colorbox(color :"green", title: [#text(30pt)[P ~~]])[
+    #greenbox(title: [#text(30pt)[P]])[
       #set align(center)
       #set text(size:9mm)
       Decision problems \ whose solution \ can be *found* efficiently.
-
-      #v(1em)
     ]
     ],[
     ],[
-    #colorbox(color :"green", title: [#text(30pt)[NP]])[
+    #greenbox(title: [#text(30pt)[NP]])[
       #set align(center)
       #set text(size:9mm)
       Decision problems \ whose solution \ can be *verified* efficiently.
-
-      #v(1em)
     ]
   ])
 ]
@@ -203,18 +204,29 @@
 #slide(
   title: [Millenium Problem]
 )[
-  #colorbox(color :"blue", title: [#text(30pt)[P vs NP]])[
+  #bluebox(title: [#text(30pt)[P vs NP]])[
     #set align(center)
     #set text(size:15mm)
-    #v(0.8em)
+    #v(.5em)
     Is $"P"$ a proper subset of $"NP"$?
-    #v(1.5em)
+    #v(.5em)
   ]
 
   #align(center)[
     #uncover(2)[ Is it true that whenever solutions to an algorithmic problem can be \ verified efficiently, they can also be computed efficiently? ]
   ]
 ]
+
+#slide(
+  title: [Why care about 3-Colorability?]
+)[
+  #redbox(title: [Lovász (1973)])[
+    #set align(center)
+    #set text(size:9mm)
+    Every problem in $"NP"$ can be formulated in terms of $3$-Colorability.
+  ]
+]
+
 
 // parlerò del PCP, che è un altro teorema che parla di dimostrazioni
 
@@ -228,23 +240,32 @@
 
 #slide()[
   #grid(columns: (0.5fr, 0.5fr), [
-    The PCP Theorem gives a different and surprising characterization of $"NP"$.
+    #uncover((3, 4, 5, 6))[
+      The PCP Theorem gives a different and surprising characterization of $"NP"$.
 
-    Informally,
+      Informally,
+  ]
     #set list(marker: (none, [•]))
-    - #uncover((2, 3, 4))[ - you are handed a proof in a certain format; ]
-    - #uncover((3, 4))[ - you select, say, 100 lines at random; ]
-    - #uncover(4)[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
+    - #uncover((4, 5, 6))[ - you are handed a proof in a certain format; ]
+    - #uncover((5, 6))[ - you select, say, 100 lines at random; ]
+    - #uncover(6)[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
   ],
   [
+    #only(1)[
+      #figure(
+        image("./pics/nyt_page.jpg") // width: 80%)
+      )
+    ]
+    #only((2, 3, 4, 5, 6))[
       #figure(
         image("./pics/nyt.jpg") // width: 80%)
       )
+    ]
   ])
 ]
 
 #slide(
-  title: [The class $"PCP"(c log n, q)$],
+  title: [The class $"PCP"(O(log n), O(1))$],
 )[
   // forse ci va davvero il disegno
   Let $c, q in ZZ^+$ be constants and $V$ be an efficient probabilistic verifier. On input #box[$x in {0, 1}^n$], to verify a proof #box[$Pi: ZZ^+ -> {0, 1}$]:
@@ -294,29 +315,25 @@
 ]
 
 #slide(
-  title: [The class $"PCP"(c log n, q)$],
+  title: [The class $"PCP"(O(log n), O(1))$],
 )[
     #set text(size:9mm)
-    A decision problem belongs to the class $"PCP"(c log n, q)$ if there exists a verifier $V$ as above s.t.:
+    A decision problem belongs to the class $"PCP"(O(log n), O(1))$ if there exists a verifier $V$ as above s.t.:
 
   #grid(columns: (0.45fr, 0.04fr, 0.45fr), [
-    #colorbox(color :"green", title: [on a YES instance])[
+    #greenbox(title: [on a YES instance])[
       #set align(center)
       #set text(size:9mm)
       There is a #box[$Pi : ZZ^+ -> {0, 1}$] s.t. $Pr[V "accepts"] = 1$.
-      #v(1em)
     ]
     ],[
     ],[
-    #colorbox(color :"green", title: [on a NO instance])[
+    #greenbox(title: [on a NO instance])[
       #set align(center)
       #set text(size:9mm)
       For any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
-      #v(1em)
     ]
   ])
-
-  #v(1em)
 
   #uncover(2)[
     *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
@@ -327,37 +344,37 @@
 #slide(
   title: [So, is 3-Colorability in $"PCP"(O(log n), O(1))$?],
 )[
-  #v(25mm)
-  #uncover((2,3))[
-    #align(center)[
-      #set text(size: 20mm, green)
-      *YES!*
+  #grid(rows: (0.3fr, 0.7fr),[
+    #v(10mm)
+    #uncover((2,3))[
+      #align(center + horizon)[
+        #set text(size: 20mm, green)
+        *YES!*
+      ]
+    ]
+  ],
+  [
+    #uncover(3)[
+      #bluebox(title: "Key")[
+        #set text(size: 9mm)
+          There exists an efficient transformation $G mapsto G'$ such that
+          - $G$ $3$-colorable $arrow.double$ $G'$ $3$-colorable;
+          // at least?
+          - $G$ not $3$-colorable $arrow.double$ every coloring of $G'$ violates at least a constant fraction of constraints.
+      ]
     ]
   ]
-  #uncover(3)[
-    #colorbox(color: "blue", title: "Key")[
-      #set text(size: 9mm)
-        There exists a transformation $G mapsto G'$ such that
-        - $G$ $3$-colorable $arrow.double$ $G'$ $3$-colorable;
-        - $G$ not $3$-colorable $arrow.double$ every coloring of $G'$ violates a constant fraction of constraints.
-      #v(1em)
-    ]
-  ]
+  )
 ]
 
 
 #slide(
 //  title: [The PCP Theorem],
 )[
-  // che faccio? 
-    // #colorbox(color:"red", title:"Theorem (AS, '92, ALMSS, '92)")[
-    #colorbox(color:"red", title:"Arora and Safra (1992); Arora, Lund, Motwani, Sudan and Szegedy (1992)")[
+    #redbox(title:"Arora, Safra (1992); Arora, Lund, Motwani, Sudan, Szegedy (1992); Dinur (2006)")[
     #set align(center)
     #set text(size:15mm)
-    #v(1em)
     $ "NP" = "PCP"(O(log n), O(1)). $
-
-    #v(1.5em)
   ]
   // ci sta dicendo che le dimostrazioni in senso classico e le dimostrazioni "sbrigative" hanno lo stesso potere espressivo
   // conseguenze soprendenti:
@@ -384,13 +401,15 @@
 #slide(
   title: [MAX-CLIQUE],
 )[
-    #colorbox(color :"green", title:"Definition (Clique)")[
+    #greenbox(title:"Definition (Clique)")[
     #set align(center)
     #set text(size:9mm)
     A _clique_ in a graph $G(V, E)$ is a complete subgraph of $G$, i.e. a subset of pairwise adjacent nodes.
-    #v(1em)
   ]
 
+  #v(1em)
+
+  #set align(center)
   #uncover(2)[
     $"MAX-CLIQUE"$: given $G$, determine $omega(G) := max{|K| : K subset.eq G "is a clique"}.$
   ]
@@ -402,11 +421,10 @@
     #figure(
       image("./pics/clique-karp.png") // width: 80%)
     )
-    #colorbox(color :"red", title:"Karp (1972)")[
+    #redbox(title:"Karp (1972)")[
     #set align(center)
     #set text(size:9mm)
     If there is an efficient algorithm for $"MAX-CLIQUE"$, then $"P" = "NP"$.
-    #v(1em)
   ]
 ]
 
@@ -420,13 +438,11 @@
 #slide(
   title: [Hardness of approximating MAX-CLIQUE],
 )[
-  #colorbox(color: "red", title:"Feige, Goldwasser, Lovasz, Safra, Szegedy (1991)")[
+  #redbox(title: "Feige, Goldwasser, Lovász, Safra, Szegedy (1991)")[
     #set align(center)
     #set text(size:9mm)
     If there is an efficient $epsilon$-approximation of $"MAX-CLIQUE"$ \ for some $epsilon > 0$, then $"P" = "NP"$.
     // For any $epsilon > 0$, it is $"NP"$-Hard to $epsilon$-approximate $"MAX-CLIQUE"$.
-
-    #v(1em)
   ]
 ]
 
@@ -443,7 +459,7 @@
   *Goal:* efficient $macron(epsilon)$-approximation of $"MAX-CLIQUE"$ $arrow.double.r$ efficient decision of $3"-Colorability"$.
 
   #uncover(2)[
-  #colorbox(color: "blue", title: "Fundamental reduction")[
+  #bluebox(title: "Fundamental reduction")[
     #set text(size:9mm)
     There is a transformation of graphs $G mapsto G'$ s.t.:
     - $G$ is $3$-colorable $arrow.double omega(G') = M$;
@@ -500,12 +516,12 @@
  Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
  - an input graph $G$;
  - $c log n$ random bits;
- - $q$ bits from the certificate.
+ - $q$ bits from the proof.
 
  #v(1em)
 
  #uncover(2)[
-   *Reminder:* For a fixed $G$, the verifier decides whether to accept or reject based on $R$ and $Pi(i_1), ..., Pi(i_q)$.
+   *Reminder:* For a fixed $G$, the verifier decides whether to accept or reject based solely on $R$ and $Pi(i_1), ..., Pi(i_q)$.
  ]
 ]
 
@@ -534,7 +550,7 @@
 )[
   #grid(columns: (0.6fr, 0.4fr),
     [
-      Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the certificate, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
+      Two accepting transcripts $chevron.l R_1; Pi(i_1)...Pi(i_q) chevron.r$ and $chevron.l R_2; Pi(j_1)...Pi(j_q) chevron.r$ are _consistent_ if they do not disagree on any bit of the proof, i.e. $i_a = j_b$ implies $Pi(i_a) = Pi(j_b)$.
       
       #v(1em)
 
@@ -558,10 +574,11 @@
 )[
   #grid(columns: (0.55fr, 0.05fr, 0.4fr),
     [
+      // altra illustrazione??
       #set align(center)
       #set text(size: 25pt)
       Cliques $K$ in $G'$ give partial \
-      certificates $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
+      proofs $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
       where for every $Pi$ extending $tilde(Pi)_K$
 
       $ "Pr"[V "accepts" Pi] >= (|K|)/n^c. $
@@ -569,7 +586,7 @@
     [
     ],
     [
-      #include "./graphics/accepting_transcripts_with_edges.typ"
+      #include "./graphics/accepting_transcripts_with_clique.typ"
     ]
   )
 ]
@@ -592,7 +609,7 @@
         #scale(70%)[ #include "./graphics/four_clique.typ" ]
       ]
     ),
-    [There is a \ valid certificate $Pi$], [Every $Pi$ is accepted at most \ $delta n^c$ out of $n^c$ times],
+    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted at most \ $delta n^c$ out of $n^c$ times],
     [
       #uncover(2)[
         $omega(G') = n^c$
@@ -618,7 +635,7 @@
 #slide(
   title: [Stronger PCPs: Håstad's 3-bit PCP],
 )[
-  #colorbox(color: "red", title: "Theorem (Håstad, 2001)")[
+  #redbox(title: "Theorem (Håstad, 2001)")[
     #set text(size:9mm)
     For any $delta > 0$, $L in "NP"$, there exists a $"PCP"$-verifier that reads $O(log n)$ random bits, queries exactly *3 bits* of the proof $Pi$, and:
     - accepts valid proofs with probability $>= 1 - delta$;
@@ -643,7 +660,7 @@
 #slide(
   title: [MAX-2LIN],
 )[
-  #colorbox(color: "blue", title: "Problem (MAX-2LIN)")[
+  #bluebox(title: "Problem (MAX-2LIN)")[
     #set text(size:9mm)
     Given a system of linear equations over $FF_2$, maximize the number of satisfied equations.
     #v(1em)
@@ -658,7 +675,7 @@
 #slide(
   title: [Inapproximability of MAX-2LIN]
 )[
-  #colorbox(color: "red", title: "Theorem (Håstad)")[
+  #redbox(title: "Theorem (Håstad)")[
     #set text(size:9mm)
     For any $epsilon > 0$, it is $"NP"$-Hard to $(1/2 + epsilon)$-approximate $"MAX-2LIN"$.
     #v(1em)
@@ -704,7 +721,7 @@
       #set align(left + top)
       $G$ is $3$-colorable
       #set list(marker: ([$arrow.double$],))
-      - there exist a valid certificate;
+      - there exist a valid proof;
       - $"MAX-2LIN"(S) >= (1 - delta)|S|$;
     ],
     [
@@ -712,7 +729,7 @@
       #set list(marker: ([$arrow.double$],))
       $G$ is not $3$-colorable
       #set list(marker: ([$arrow.double$],))
-      - every certificate is accepted with probability at most $1/2 + delta$
+      - every proof is accepted with probability at most $1/2 + delta$
       - $"MAX-2LIN"(S) <= (1/2 + delta)|S|$
     ])
   ],
@@ -730,7 +747,7 @@
 // #slide(
 //   title: [Inapproximability of MAX-3SAT],
 // )[
-//   #colorbox(color: "red", title: "Theorem (Håstad)")[
+//   #redbox(title: "Theorem (Håstad)")[
 //     #set text(size:9mm)
 //     For any $epsilon > 0$, it is $"NP"$-Hard to $(7/8 + epsilon)$-approximate $"MAX-3SAT"$.
 //     #v(1em)
@@ -749,7 +766,7 @@
   - (1971) Cook -- _The complexity of theorem-proving procedures_
   - (1972) Karp -- _Reducibility among combinatorial problems_
   - (1973) Levin -- _Universal Sequential Search Problems_
-  - (1991) Feige, Goldwasser, Lovasz, Safra, Szegedy -- _Interactive Proofs and the Hardness of Approximating Cliques_
+  - (1991) Feige, Goldwasser, Lovász, Safra, Szegedy -- _Interactive Proofs and the Hardness of Approximating Cliques_
   - (1992) Arora, Safra -- _Probabilistic Checking of Proofs: A New Characterization of NP_
   - (1992) Arora, Lung, Motwani, Sudan, Szegedy -- _Proof Verification and the Hardness of Approximation Problems_
   - (2001) Håstad -- _Some Optimal Inapproximability Results_
@@ -764,7 +781,7 @@
   - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
   - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
-  - (2012) Arora, Barak -- _Computational Caomplexity: A Modern Approach_
+  - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
 ]
 
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
