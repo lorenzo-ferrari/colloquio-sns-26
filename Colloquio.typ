@@ -570,15 +570,15 @@
 ]
 
 #slide(
-  title: [Key idea],
+  title: [Cliques $arrow.r.l.double$ Proofs],
 )[
   #grid(columns: (0.55fr, 0.05fr, 0.4fr),
     [
       // altra illustrazione??
       #set align(center)
       #set text(size: 25pt)
-      Cliques $K$ in $G'$ give partial \
-      proofs $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
+      Cliques $K$ in $G'$ correspond to \
+      partial proofs $tilde(Pi)_K : S subset.eq ZZ^+ -> {0, 1}$,\
       where for every $Pi$ extending $tilde(Pi)_K$
 
       $ "Pr"[V "accepts" Pi] >= (|K|)/n^c. $
@@ -586,13 +586,14 @@
     [
     ],
     [
-      #include "./graphics/accepting_transcripts_with_clique.typ"
+      #only(1)[#include "./graphics/accepting_transcripts_with_edges.typ"]
+      #only(2)[#include "./graphics/accepting_transcripts_with_clique.typ"]
     ]
   )
 ]
 
 #slide(
-  title: [Key idea]
+  title: [Cliques $arrow.r.l.double$ Proofs],
 )[
   #set align(center)
   #include "./graphics/clique_pcp_verification.typ"
