@@ -131,7 +131,7 @@
         // Frecce per le query agli indici specifici della prova
         for i in range(queries.at(j).len()) {
           let q = queries.at(j).at(i)
-          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 5
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
@@ -185,7 +185,7 @@
         // Frecce per le query agli indici specifici della prova
         for i in range(queries.at(j).len()) {
           let q = queries.at(j).at(i)
-          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 5
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
@@ -239,7 +239,7 @@
         // Frecce per le query agli indici specifici della prova
         for i in range(queries.at(j).len()) {
           let q = queries.at(j).at(i)
-          let origin-x = verifier_left_x + verifier_width * (i + 1) / 6
+          let origin-x = verifier_left_x + verifier_width * (i + 1) / 5
           let target-x = 2.5 + q * cell_side + cell_side / 2
           let target-y = proof_bottom_y
           line(
