@@ -286,7 +286,7 @@
       Informally,
   ]
     #set list(marker: (none, [•]))
-    - #uncover((4, 5, 6))[ - you are handed a proof in a certain format; ]
+    - #uncover((4, 5, 6))[ - you are handed a proof _in a certain format_; ]
     - #uncover((5, 6))[ - you select, say, 100 lines at random; ]
     - #uncover(6)[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
   ],
@@ -324,6 +324,7 @@
   title: [Probabilistic verification of 3-Colorability]
 )[
   #grid(columns: (0.5fr, 0.5fr), [
+    #v(1.5em)
     #set align(center)
     #include "./graphics/unknown_three_coloring.typ"
 
@@ -333,6 +334,7 @@
     ]
   ],
   [
+    // - $x = $ input graph;
     - $Pi = $ coloring;
     - $V$ chooses at random ($R$) a constant number of constraints;
     - accept $arrow.double.r.l.long$ all of them are satisfied.
@@ -347,10 +349,17 @@
     #include "./graphics/almost_three_colorable_graph.typ"
   ],
   [
-    Colorings could violate only a fraction $1 / m$ of the constraints.
+    #set align(center)
+    #set text(size: 9mm)
+
+    Colorings could violate only \
+    a fraction $1 / m$ of the constraints.
+
+    #v(.2em)
+    #rotate(90deg)[#text(size: 40pt)[$ => $]]
 
     // $arrow.double$ The naïve proof system is not good enough.
-    $arrow.double$ Very unlikely to catch the unsatisfied edge...
+    Very unlikely to catch \ the unsatisfied edge...
   ])
 ]
 
@@ -512,7 +521,7 @@
 #slide(
   title: [Decision procedure],
 )[
-  #uncover((2,3,4))[ Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$. ]
+  Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$.
   #align(center)[
   #table(
     columns: (0.5fr, 0.5fr),
@@ -530,7 +539,7 @@
     ),
     [$omega(G') = M$], [$omega(G') < macron(epsilon) M$],
     [
-      #uncover((3, 4))[
+      #uncover((2, 3, 4))[
         #box(stroke: 2pt + red)[
           #v(1em) ~~~ $|K| >= macron(epsilon)M$ ~~~ #v(1em)
         ]
@@ -614,7 +623,7 @@
       #set align(center)
       #uncover((2, 3))[
         #set text(size: 25pt)
-        Two accepting transcript are adjacent in $G'$
+        Two accepting transcript are \ adjacent in $G'$
         $arrow.l.r.double$
         they are consistent.
       ]
@@ -676,19 +685,23 @@
     ),
     [There is a \ valid proof $Pi$], [Every $Pi$ is accepted at most \ $delta n^c$ out of $n^c$ times],
     [
-      #uncover(2)[
-        $omega(G') = n^c$
+      #uncover((2, 3))[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $omega(G') = n^c$ ~~~ #v(1em)
+        ]
       ]
     ],
     [
-      #uncover(2)[
-        $omega(G') < delta n^c < macron(epsilon) n^c$
+      #uncover(3)[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $omega(G') <= delta n^c < macron(epsilon) n^c$ ~~~ #v(1em)
+        ]
       ]
     ],
     [
     ],
     [
-      #uncover(2)[ #align(right)[$qed$] ]
+      #uncover(3)[ #align(right)[$qed$] ]
     ]
   )
   ]
@@ -864,4 +877,6 @@
   - A stronger PCP and optimal inapproximability results;
   - The class $"APX"$ and why $"P" eq.not "NP" arrow.double "PTAS" subset.neq "APX"$;
   - Inapproximability results for other optimization problems. // (vd. Trevisan, 2004).
+  // esempio: impossibile approssimare set cover meglio di O(log n)
+  // -> l'algoritmo greedy è ottimo
 ]

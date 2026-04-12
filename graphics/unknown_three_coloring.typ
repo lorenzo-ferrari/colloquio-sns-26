@@ -40,6 +40,9 @@
     only(j + 1)[
       #canvas(length: 1.1cm, {
         import draw: *
+
+        // content((0, 5), [$x:$])
+
         let A = state.at(0) // ("1", "0", "3", "7")
         let B = state.at(1) // ("2", "8", "4")
         let C = state.at(2) // ("6", "9", "5")
