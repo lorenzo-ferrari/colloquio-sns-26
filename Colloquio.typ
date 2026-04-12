@@ -2,24 +2,8 @@
 // #import "@preview/sns-polylux-template:0.2.0": *
 #import "sns-polylux-template.typ": *
 #import "@preview/showybox:2.0.4": showybox
-// #import "@preview/colorful-boxes:1.4.3": *
 #import "@preview/cetz:0.4.2": canvas, draw
 #import "graphics/sns_colormap.typ": *
-
-/*
-  ACHTUNG: You should seriously consider downloading
-  the recommended fonts for this package.
-  Make sure to install the static versions, because
-  Typst does not support variable fonts yet.
-  You can find the fonts here:
-    https://fonts.google.com/share?selection.family=Roboto+Condensed
-    https://fonts.google.com/share?selection.family=Raleway
-  You can find the installation guide here:
-    https://typst.app/docs/reference/text/text/#parameters-font
-*/
-
-// #show math.equation: set text(font: ("Roboto", "Fira Sans", "DejaVu Sans"))
-// #show math.equation: set text(font: "Fira Math")
 
 #let custom-box(title: "", color: navy, body) = showybox(
   title: title,
@@ -84,11 +68,11 @@
   aspect-ratio    : "16-9",
   title           : [The PCP Theorem],
   subtitle        : [and its consequences for the approximation of hard problems],
-  event           : [Scuola Normale Superiore - Aprile 2026], // lo tengo?
+  event           : [Sapienza Università di Roma -- Aprile 2026], // lo tengo?
   short-title     : [],
   short-event     : [], // Scuola Normale Superiore — 04/2026],
   logo-1          : image("pics/solo_logo_SNS_bianco.svg"),
-//  logo-2          : image("pics/logo_SNS_blu.png"),
+  // logo-2          : image("pics/logo_SNS_blu.svg"),
   authors         : (
     {
       set text(top-edge: 0pt, bottom-edge: 0pt)
@@ -108,13 +92,9 @@
 // queste definizioni diventano rigorose in termini di MdT
 
 #title-slide()
+#sns-polylux-template_logo-1.update(image("pics/logo_SNS_bianco.svg"))
 
 #new-section-slide([P vs NP])
-
-// slide P: 2-col
-// slide con due disegnoni: grafo 2-colorabile e grafo non 2-colorabile
-// vai avanti -> 2-colori quello a sx
-// vai avanti -> evidenzi un ciclo dispari in quello a dx
 
 #slide(
   title: [P: 2-Colorability]
@@ -193,12 +173,6 @@
     ]
   ],
   [
-    /*
-    #align(center)[
-      #set text(size: 16mm, red)
-      *DRASTIC CHANGE!*
-    ]
-    */
     #v(1em)
     #set list(marker: (none, [•]))
     #list(
@@ -269,12 +243,7 @@
 
 
 // parlerò del PCP, che è un altro teorema che parla di dimostrazioni
-
-// def di PCP
-// Teoremone, lapidario
-// specifico giusto un pochino che 1/2 è arbitrario e posso sostituirlo con delta a piacere
 // racconto che ha varie ramificazioni, io mi concentro sui problemi di ottimizzazione
-
 // immaginiamo di avere la dimostrazione di un problema e di adottare la seguente procedura di verifica piuttosto sbrigativa
 #new-section-slide([The PCP Theorem])
 
@@ -307,7 +276,6 @@
 #slide(
   title: [The class $"PCP"(O(log n), O(1))$],
 )[
-  // forse ci va davvero il disegno
   Let $c, q in ZZ^+$ be constants and $V$ be an efficient probabilistic verifier. On input #box[$x in {0, 1}^n$], to verify a proof #box[$Pi: ZZ^+ -> {0, 1}$]:
   #set list(marker: (none, [•]))
   - #uncover((2,3,4))[ - $V$ reads a random string $R$ of up to $c log n$ bits; ]
@@ -358,7 +326,6 @@
     #v(.2em)
     #rotate(90deg)[#text(size: 40pt)[$ => $]]
 
-    // $arrow.double$ The naïve proof system is not good enough.
     Very unlikely to catch \ the unsatisfied edge...
   ])
 ]
@@ -418,7 +385,7 @@
 
 
 #slide(
-//  title: [The PCP Theorem],
+  title: [The PCP Theorem],
 )[
     #redbox(title:"Arora, Safra (1992); Arora, Lund, Motwani, Sudan, Szegedy (1992); Dinur (2006)")[
     #set align(center)
@@ -433,14 +400,6 @@
 ]
 
 #new-section-slide([Hardness of Approximation])
-
-// DISEGNONE
-// Problema molto importante, Input: G, Output: dimensione della cricca massima
-// è un problema NP-Hard, come tanti problemi combinatorici
-// Se P != NP, allora non esiste algo polinomiale per
-// Max-Clique (disegnone)
-// vado avanti -> TSP
-// vado avanti -> Chromatic Number
 
 #slide(
   title: [Max-Clique],
@@ -498,14 +457,11 @@
   ]
 ]
 
-// TODO: corrispondenza 1-1 con algoritmo di verifica per 3-col
-
 #slide(
   title: [Proof],
 )[
   // Let $L in "NP"$ be any problem, for example $L = 3"-Colorability"$.
 
-  // *Goal:* efficient $macron(epsilon)$-approximation of $"Max-Clique"$ $arrow.double.r$ efficient decision of $3"-Colorability"$.
   We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently.
 
   #uncover(2)[
@@ -640,7 +596,6 @@
 )[
   #grid(columns: (0.55fr, 0.05fr, 0.4fr),
     [
-      // altra illustrazione??
       #set align(center)
       #set text(size: 25pt)
       Cliques $K$ in $G'$ correspond to \
@@ -817,23 +772,24 @@
     ]
   ])
 ]
-*/
 
-// #slide(
-//   title: [Inapproximability of MAX-3SAT],
-// )[
-//   #redbox(title: "Theorem (Håstad)")[
-//     #set text(size:9mm)
-//     For any $epsilon > 0$, it is $"NP"$-Hard to $(7/8 + epsilon)$-approximate $"MAX-3SAT"$.
-//     #v(1em)
-//   ]
-// ]
-// 
-// #slide(
-//   title: [Proof]
-// )[
-//   Gap-preserving reduction (both ways!) between $"MAX-2LIN"$ and $"MAX-3SAT"$.
-// ]
+
+#slide(
+  title: [Inapproximability of MAX-3SAT],
+)[
+  #redbox(title: "Theorem (Håstad)")[
+    #set text(size:9mm)
+    For any $epsilon > 0$, it is $"NP"$-Hard to $(7/8 + epsilon)$-approximate $"MAX-3SAT"$.
+    #v(1em)
+  ]
+]
+
+#slide(
+  title: [Proof]
+)[
+  Gap-preserving reduction (both ways!) between $"MAX-2LIN"$ and $"MAX-3SAT"$.
+]
+*/
 
 #slide(
   title: [(Partial) history of the PCP Theorem],
@@ -857,17 +813,34 @@
   - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
 ]
 
+// Main papers
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
 // https://www.cs.umd.edu/~gasarch/TOPICS/pcp/fglss.pdf
 // https://kam.mff.cuni.cz/~matousek/cla/dinur-pcp-combinatorial-proof.pdf
 // https://people.csail.mit.edu/dmoshkov/courses/pcp/pcp-history.pdf
 
+/*
 #empty-slide()[
   #set text(size: 40pt)
   Thank you! Questions?
 ]
+*/
 
-// #utils.register-section([])
+#empty-slide()[
+  _Thank you for your attention!_
+
+  #curve(
+  stroke: white + 0.5pt,
+  fill: white,
+  curve.quad(relative: true, (75pt, 15pt), (150pt, -1pt)),
+  curve.quad(relative: true, (75pt, -15pt), (150pt, 1pt)),
+  curve.line(relative: true, (-10pt, -2.5pt)),
+  curve.quad(relative: true, (-75pt, -15pt), (-150pt, 1pt)),
+  curve.quad(relative: true, (-75pt, 15pt), (-150pt, -1pt)),
+  curve.line(relative: true, (10pt, 2.5pt)),
+  //curve.close()
+)
+]
 
 #slide(
   hide-section: true,
