@@ -579,7 +579,7 @@
       #set align(center)
       #uncover((2, 3))[
         #set text(size: 25pt)
-        Two accepting transcript are \ adjacent in $G'$
+        Two accepting transcripts are \ adjacent in $G'$
         $arrow.l.r.double$
         they are consistent.
       ]
