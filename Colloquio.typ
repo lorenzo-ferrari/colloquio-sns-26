@@ -827,7 +827,8 @@
 */
 
 #empty-slide()[
-  _Thank you for your attention!_
+  // _Thank you for your attention!_
+  _Time for your questions!_
 
   #curve(
   stroke: white + 0.5pt,
@@ -852,4 +853,5 @@
   - Inapproximability results for other optimization problems. // (vd. Trevisan, 2004).
   // esempio: impossibile approssimare set cover meglio di O(log n)
   // -> l'algoritmo greedy è ottimo
+  - Zero-knowledge proofs
 ]
