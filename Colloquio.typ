@@ -18,7 +18,7 @@
     radius: 5pt,
     thickness: 1.5pt,
   ),
-  shadow: (offset: 5pt, color: gray.lighten(50%)),
+  shadow: (offset: 3pt, color: gray.lighten(50%)),
   body
 )
 
