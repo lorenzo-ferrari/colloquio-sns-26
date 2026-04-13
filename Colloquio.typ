@@ -18,7 +18,7 @@
     radius: 5pt,
     thickness: 1.5pt,
   ),
-  shadow: (offset: 3pt, color: gray.lighten(50%)),
+  shadow: (offset: 5pt, color: gray.lighten(50%)),
   body
 )
 
@@ -467,7 +467,7 @@
   #uncover(2)[
   #bluebox(title: "Fundamental reduction")[
     #set text(size:9mm)
-    There is a transformation of graphs $G mapsto G'$ s.t.:
+    There is an efficient transformation of graphs $G mapsto G'$ s.t.:
     - $G$ is $3$-colorable $arrow.double omega(G') = M$;
     - $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
   ]
@@ -847,11 +847,77 @@
   hide-section: true,
   title: [More topics we could talk about]
 )[
-  - What expanders have to do with the PCP Theorem;
-  - A stronger PCP and optimal inapproximability results;
-  - The class $"APX"$ and why $"P" eq.not "NP" arrow.double "PTAS" subset.neq "APX"$;
-  - Inapproximability results for other optimization problems. // (vd. Trevisan, 2004).
-  // esempio: impossibile approssimare set cover meglio di O(log n)
-  // -> l'algoritmo greedy è ottimo
-  - Zero-knowledge proofs
+  #grid(columns:(.3fr, .3fr, .3fr), gutter: 1em,
+    [
+        #stickybox(
+          tape: true,
+          rotation: 2deg,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          What expanders \ have to do with \ the PCP Theorem
+          #v(.5em)
+        ]
+    ],
+    [
+        #stickybox(
+          tape: true,
+          rotation: -1deg,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          A stronger PCP and optimal inapproximability results
+          #v(.5em)
+        ]
+    ],
+    [
+        #stickybox(
+          tape: true,
+          rotation: -2deg,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          The class $"APX"$ and why $"PTAS" subset.neq "APX"$, \ unless $"P" = "NP"$
+          #v(.5em)
+        ]
+    ],
+  )
+
+  #grid(columns:(.15fr, .3fr, .3fr, .15fr), gutter: 1em,
+    [
+    ],
+    [
+        #stickybox(
+          tape: true,
+          rotation: 1.5deg,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          \
+          Zero-knowledge proofs \
+          \
+          #v(.5em)
+        ]
+    ],
+    [
+        #stickybox(
+          tape: true,
+          rotation: -1deg,
+        )[
+          #v(1em)
+          #set align(center)
+          #set text(black.lighten(20%))
+          Inapproximability results for other optimization problems // (vd. Trevisan, 2004).
+          // esempio: impossibile approssimare set cover meglio di O(log n)
+          // -> l'algoritmo greedy è ottimo
+          #v(.5em)
+        ]
+    ],
+    [
+    ],
+  )
 ]
