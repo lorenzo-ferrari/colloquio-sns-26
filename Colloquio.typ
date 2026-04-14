@@ -68,7 +68,7 @@
   aspect-ratio    : "16-9",
   title           : [The PCP Theorem],
   subtitle        : [and its consequences for the approximation of hard problems],
-  event           : [Sapienza Università di Roma -- Aprile 2026], // lo tengo?
+  event           : [Scuola Normale Superiore -- 28 Aprile 2026], // lo tengo?
   short-title     : [],
   short-event     : [], // Scuola Normale Superiore — 04/2026],
   logo-1          : image("pics/solo_logo_SNS_bianco.svg"),
@@ -227,7 +227,7 @@
   ]
 
   #align(center)[
-    #uncover(2)[ Is it true that whenever solutions to an algorithmic problem can be \ verified efficiently, they can also be computed efficiently? ]
+    #uncover(2)[ Is it true that $3$-$"Colorability"$ and thousands of other \ problems *cannot* be solved efficiently? ]
   ]
 ]
 
@@ -662,6 +662,47 @@
   ]
 ]
 
+#slide(
+  title: [Even stronger inapproximability results],
+)[
+  #set align(center)
+  #table(
+    columns: (0.3fr, 0.3fr, 0.3fr),
+    rows: (5em, 3em),
+    stroke: 2pt,
+    align: center + horizon,
+    fill: (x, y) => if y == 0 { none } else { none },
+    table.header(
+      [
+        Our proof...
+      ],
+      [
+        ...with a pinch of \ expander graphs
+      ],
+      [
+        A stronger $"PCP"$ + ...
+      ],
+    ),
+    [
+      $epsilon$ for any $epsilon > 0$
+    ],
+    [
+      $1 / (n^c)$ for some $c > 0$
+    ],
+    [
+      $1 / (n ^ (1 - epsilon))$ for any $epsilon > 0$
+    ],
+  )
+
+  #uncover(2)[
+    One among hundreds of results unlocked by the PCP.
+
+    #set text(size: 9mm)
+    *The PCP Theorem changed an era in approximation theory.*
+
+  ]
+]
+
 /*
 #new-section-slide([Further Results])
 
@@ -807,11 +848,14 @@
 #slide(
   title: [Some more bibliography]
 )[
+  - (1989) Impagliazzo, Zuckerman -- _How to Recycle Random Bits_
   - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
   - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
   - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
 ]
+// da aggiungere 
+// Impagliazzo - Zuckermann
 
 // Main papers
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
@@ -827,7 +871,6 @@
 */
 
 #empty-slide()[
-  // _Thank you for your attention!_
   _Time for your questions!_
 
   #curve(
