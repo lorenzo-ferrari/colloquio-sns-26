@@ -394,9 +394,6 @@
     $ "NP" = "PCP"(O(log n), O(1)). $
     #v(.5em)
   ]
-  // ci sta dicendo che le dimostrazioni in senso classico e le dimostrazioni "sbrigative" hanno lo stesso potere espressivo
-  // conseguenze soprendenti:
-  // (in)approssimabilità
 ]
 
 #new-section-slide([Hardness of Approximation])
@@ -460,8 +457,7 @@
 #slide(
   title: [Proof],
 )[
-  // Let $L in "NP"$ be any problem, for example $L = 3"-Colorability"$.
-
+  // Enfatizza che qui 3-Col non ha nessun ruolo particolare
   We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently.
 
   #uncover(2)[
@@ -519,14 +515,12 @@
   title: [Building $G'$],
 )[
   #grid(
-    columns: (0.6fr, 0.05fr, 0.4fr),
+    columns: (0.6fr, 0.4fr), gutter: 0.05fr,
     [
       Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
       - an input graph $G$;
       - $c log n$ random bits;
       - $q$ bits from the proof.
-    ],
-    [
     ],
     [
       #uncover(2)[
@@ -854,21 +848,12 @@
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
   - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
 ]
-// da aggiungere 
-// Impagliazzo - Zuckermann
 
 // Main papers
 // https://people.csail.mit.edu/madhu/papers/1992/almss-journ.pdf
 // https://www.cs.umd.edu/~gasarch/TOPICS/pcp/fglss.pdf
 // https://kam.mff.cuni.cz/~matousek/cla/dinur-pcp-combinatorial-proof.pdf
 // https://people.csail.mit.edu/dmoshkov/courses/pcp/pcp-history.pdf
-
-/*
-#empty-slide()[
-  #set text(size: 40pt)
-  Thank you! Questions?
-]
-*/
 
 #empty-slide()[
   _Time for your questions!_
