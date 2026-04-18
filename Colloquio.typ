@@ -411,7 +411,9 @@
     #bluebox(title:"Problem (Max-Clique)")[
       #set align(center)
       #set text(size: 9mm)
-      Given $G$, determine $omega(G) := max{|K| : K subset.eq G$ is a clique$}.$
+      Given $G$, find a clique of maximum cardinality.
+
+      Let $omega(G)$ be this cardinality.
     ]
   ]
 ]
@@ -473,7 +475,7 @@
 #slide(
   title: [Decision procedure],
 )[
-  Let $|K|$ be an $macron(epsilon)$-approximation of $omega(G')$.
+  Let $K$ be an $macron(epsilon)$-approximation of $omega(G')$.
   #align(center)[
   #table(
     columns: (0.5fr, 0.5fr),
@@ -517,7 +519,7 @@
   #grid(
     columns: (0.6fr, 0.4fr), gutter: 0.05fr,
     [
-      Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error bounded by some $delta < macron(epsilon)$, reading:
+      Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error strictly smaller than $macron(epsilon)$, reading:
       - an input graph $G$;
       - $c log n$ random bits;
       - $q$ bits from the proof.
@@ -632,7 +634,7 @@
         #scale(70%)[ #include "./graphics/four_clique.typ" ]
       ]
     ),
-    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted at most \ $delta n^c$ out of $n^c$ times],
+    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted less than \ $macron(epsilon) n^c$ out of $n^c$ times],
     [
       #uncover((2, 3))[
         #box(stroke: 2pt + red)[
@@ -643,7 +645,7 @@
     [
       #uncover(3)[
         #box(stroke: 2pt + red)[
-          #v(1em) ~~~ $omega(G') <= delta n^c < macron(epsilon) n^c$ ~~~ #v(1em)
+          #v(1em) ~~~ $omega(G') < macron(epsilon) n^c$ ~~~ #v(1em)
         ]
       ]
     ],
@@ -688,8 +690,9 @@
     ],
   )
 
+  #v(1em)
   #uncover(2)[
-    One among hundreds of results unlocked by the PCP.
+    // One among hundreds of results unlocked by the PCP.
 
     #set text(size: 9mm)
     *The PCP Theorem changed an era in approximation theory.*
@@ -908,7 +911,7 @@
           #v(1em)
           #set align(center)
           #set text(black.lighten(20%))
-          The class $"APX"$ and why $"PTAS" subset.neq "APX"$, \ unless $"P" = "NP"$
+          Why several problems do not have a $"PTAS"$, \ unless $"P" = "NP"$
           #v(.5em)
         ]
     ],

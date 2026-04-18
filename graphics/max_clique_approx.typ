@@ -100,7 +100,7 @@
 
     content(pos_testo_B, anchor: "south-east", padding: 0.1cm)[
       #text(fill: black, size: 1em)[
-        $4/5$-approx of $omega(G)$
+        $4/5$-approximation
       ]
     ]
 
