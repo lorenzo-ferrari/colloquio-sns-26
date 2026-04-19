@@ -247,17 +247,21 @@
 // immaginiamo di avere la dimostrazione di un problema e di adottare la seguente procedura di verifica piuttosto sbrigativa
 #new-section-slide([The PCP Theorem])
 
-#slide()[
+#slide(
+  title: [Probabilistically checkable proofs]
+)[
   #grid(columns: (0.5fr, 0.5fr), [
     #uncover((3, 4, 5, 6))[
-      The PCP Theorem gives a different and surprising characterization of $"NP"$.
-
       Informally,
   ]
     #set list(marker: (none, [•]))
-    - #uncover((4, 5, 6))[ - you are handed a proof _in a certain format_; ]
-    - #uncover((5, 6))[ - you select, say, 100 lines at random; ]
-    - #uncover(6)[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
+    - #uncover((3, 4, 5, 6))[ - you are handed a proof _in a certain format_; ]
+    - #uncover((4, 5, 6))[ - you select, say, 100 lines at random; ]
+    - #uncover((5, 6))[ - you consider the proof valid $arrow.double.r.l$ you do not find mistakes. ]
+    #uncover(6)[
+      The PCP Theorem implies this is possible.
+      // gives a different and surprising characterization of $"NP"$.
+    ]
   ],
   [
     #only(1)[
@@ -462,6 +466,7 @@
   // Enfatizza che qui 3-Col non ha nessun ruolo particolare
   We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently.
 
+  #v(1em)
   #uncover(2)[
   #bluebox(title: "Fundamental reduction")[
     #set text(size:9mm)
