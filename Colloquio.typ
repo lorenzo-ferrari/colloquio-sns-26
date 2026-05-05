@@ -5,6 +5,13 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 #import "graphics/sns_colormap.typ": *
 
+#show math.equation: set text(font: "New Computer Modern Sans Math")
+// #show math.equation: set text(stroke: 0.15pt)  // si comporta male con i colori
+#show math.equation: it => context {
+  set text(stroke: 0.15pt + text.fill)
+  it
+}
+
 #let custom-box(title: "", color: navy, body) = showybox(
   title: title,
   title-style: (
