@@ -785,7 +785,7 @@
   ]
 ]
 
-#new-section-slide([Landscape of (in)approximability])
+#new-section-slide([Landscape])
 
 #slide(
   title: [Max-E3Sat]
@@ -847,12 +847,10 @@
     #set text(size:9mm)
     Given a graph $G(V, E)$, find a set $S subset.eq V$ maximizing $|E(S, V \\ S)|$.
   ]
-]
 
-#slide(
-  title: [Max-Cut]
-)[
-    #include "./graphics/hardness_maxcut.typ"
+  #v(1em)
+
+  #include "./graphics/hardness_maxcut.typ"
 ]
 
 #slide(

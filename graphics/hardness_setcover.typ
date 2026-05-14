@@ -61,7 +61,12 @@
           (pos_ln, $ln n$)
         )
 
-        for (x, label) in ticks {
+        for i in range(ticks.len()) {
+          if i == 1 and j == 0 {
+            continue
+          }
+          let x = ticks.at(i).at(0)
+          let label = ticks.at(i).at(1)
           line((x, -tick_len/2), (x, tick_len/2), stroke: 1pt)
           content((x, -0.4), label)
         }
