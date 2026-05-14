@@ -2,7 +2,7 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 
 #figure(
-  for j in range(2) {
+  for j in range(3) {
     only(j + 1)[
       #canvas(length: 2cm, {
         import draw: *
@@ -20,27 +20,34 @@
 
         // --- Definizione delle aree colorate ---
 
+        // phantom rectangle, placeholder
+        rect((pos_start, 0), (pos_start, h), fill: red.lighten(100%), stroke: none, name: "hard")
+
         // Impossibile / NP-Hard (Rosso): da 1 a ln(n)
-        if j == 1 {
+        if j == 2 {
           rect((pos_start, 0), (pos_ln, h), fill: rgb("#ffcccc"), stroke: none, name: "hard")
         }
 
         // Facile / Greedy (Verde): da ln(n) in poi
-        rect((pos_ln, 0), (pos_end, h), fill: rgb("#d4ffcf"), stroke: none, name: "facile")
+        if j >= 1 {
+          rect((pos_ln, 0), (pos_end, h), fill: rgb("#d4ffcf"), stroke: none, name: "facile")
+        }
 
         // --- Testi all'interno delle aree ---
 
-        if j == 1 {
+        if j == 2 {
           content("hard.center", [
             #set align(center)
             *#text(fill: rgb("#990000"), size: 1.1em)[NP-Hard]*
           ])
         }
 
-        content("facile.center", [
-          #set align(center)
-          *#text(fill: rgb("#008000"), size: 1.1em)[Greedy]*
-        ])
+        if j >= 1 {
+          content("facile.center", [
+            #set align(center)
+            *#text(fill: rgb("#008000"), size: 1.1em)[Greedy]*
+          ])
+        }
 
         // --- Asse orizzontale ---
 
@@ -60,7 +67,7 @@
         }
 
         // Annotazione specifica inapprossimabilità
-        if j == 1 {
+        if j == 2 {
           content((pos_ln, -1.0), [
             #set text(size: 0.7em, style: "italic", fill: gray.darken(20%))
             #set align(center)
