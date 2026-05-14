@@ -7,10 +7,10 @@
 
 #show math.equation: set text(font: "New Computer Modern Sans Math")
 // #show math.equation: set text(stroke: 0.15pt)  // si comporta male con i colori
-#show math.equation: it => context {
-  set text(stroke: 0.15pt + text.fill)
-  it
-}
+// #show math.equation: it => context {
+//  set text(stroke: 0.15pt + text.fill)
+//  it
+// }
 
 #let custom-box(title: "", color: navy, body) = showybox(
   title: title,
@@ -358,12 +358,12 @@
     #greenbox(title: [on a NO instance])[
       #set align(center)
       #set text(size:9mm)
-      For any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] <= 1 / 2$.
+      For any $Pi : ZZ^+ -> {0, 1}$ it holds $Pr[V "accepts"] < 1 / 2$.
     ]
   ])
 
   #uncover(2)[
-    *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] <= 1 / 2^k$.
+  *Observation:* by $(c, q) mapsto (k c, k q)$, we can make $Pr[V "is wrong"] < 1 / 2^k$.
   ]
 ]
 
@@ -407,7 +407,7 @@
   ]
 ]
 
-#new-section-slide([Hardness of Approximation])
+#new-section-slide([Inapproximability of Max-Clique])
 
 #slide(
   title: [Max-Clique],
@@ -471,7 +471,7 @@
   title: [Proof],
 )[
   // Enfatizza che qui 3-Col non ha nessun ruolo particolare
-  We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently.
+  We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently. For now, assume $macron(epsilon) = 1/2$.
 
   #v(1em)
   #uncover(2)[
@@ -479,7 +479,7 @@
     #set text(size:9mm)
     There is an efficient transformation of graphs $G mapsto G'$ s.t.:
     - $G$ is $3$-colorable $arrow.double omega(G') = M$;
-    - $G$ is not $3$-colorable $arrow.double omega(G') < macron(epsilon) M$.
+    - $G$ is not $3$-colorable $arrow.double omega(G') < M \/ 2$.
   ]
 ]
 ]
@@ -487,7 +487,7 @@
 #slide(
   title: [Decision procedure],
 )[
-  Let $K$ be an $macron(epsilon)$-approximation of $omega(G')$.
+  Let $K$ be an $1/2$-approximation of $omega(G')$.
   #align(center)[
   #table(
     columns: (0.5fr, 0.5fr),
@@ -503,25 +503,25 @@
         #scale(60%)[ #include "./graphics/four_clique.typ" ]
       ]
     ),
-    [$omega(G') = M$], [$omega(G') < macron(epsilon) M$],
+    [$omega(G') = M$], [$omega(G') < M \/ 2$],
     [
       #uncover((2, 3, 4))[
         #box(stroke: 2pt + red)[
-          #v(1em) ~~~ $|K| >= macron(epsilon)M$ ~~~ #v(1em)
+          #v(1em) ~~~ $|K| >= M \/ 2$ ~~~ #v(1em)
         ]
       ]
     ],
     [
       #uncover((3, 4))[
         #box(stroke: 2pt + red)[
-          #v(1em) ~~~ $|K| < macron(epsilon) M$ ~~~ #v(1em)
+          #v(1em) ~~~ $|K| < M \/ 2$ ~~~ #v(1em)
         ]
       ]
     ]
   )
 
   #set text(size: 30pt) 
-  #uncover(4)[ $G$ is $3$-colorable $arrow.r.l.double$ $|K| >= macron(epsilon)M$. ]
+  #uncover(4)[ $G$ is $3$-colorable $arrow.r.l.double$ $|K| >= M \/ 2$. ]
   ]
 ]
 
@@ -531,7 +531,8 @@
   #grid(
     columns: (0.6fr, 0.4fr), gutter: 0.05fr,
     [
-      Fix a $"PCP"$-verifier for $3"-Colorability"$ with probability error strictly smaller than $macron(epsilon)$, reading:
+      Fix a $"PCP"$-verifier for $3"-Colorability"$, reading:
+      // with probability error strictly smaller than $macron(epsilon)$,
       - an input graph $G$;
       - $c log n$ random bits;
       - $q$ bits from the proof.
@@ -646,7 +647,7 @@
         #scale(70%)[ #include "./graphics/four_clique.typ" ]
       ]
     ),
-    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted less than \ $macron(epsilon) n^c$ out of $n^c$ times],
+    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted less than \ $n^c \/ 2$ out of $n^c$ times],
     [
       #uncover((2, 3))[
         #box(stroke: 2pt + red)[
@@ -657,7 +658,79 @@
     [
       #uncover(3)[
         #box(stroke: 2pt + red)[
-          #v(1em) ~~~ $omega(G') < macron(epsilon) n^c$ ~~~ #v(1em)
+          #v(1em) ~~~ $omega(G') < n^c \/ 2$ ~~~ #v(1em)
+        ]
+      ]
+    ],
+    [
+    ],
+    [
+      #uncover(3)[ #align(right)[$qed$] ]
+    ]
+  )
+  ]
+]
+
+#slide(
+  title: [$macron(epsilon) = 1\/2$ was not restrictive]
+)[
+  #grid(
+    columns: (0.6fr, 0.4fr), gutter: 0.05fr,
+    [
+      Fix a $"PCP"$-verifier for $3"-Colorability"$
+      #text(red)[with probability error strictly smaller than $macron(epsilon)$],
+      reading
+      - an input graph $G$;
+      - $c log n$ random bits;
+      - $q$ bits from the proof.
+    ],
+    [
+      #stickybox(
+        rotation: 3deg,
+        tape: true,
+      )[
+        #v(1em)
+        #set align(center)
+        #set text(black.lighten(20%))
+        *Reminder*
+
+        Fixed $G$, the verifier accepts or rejects based solely on \ $R$ and $Pi(i_1), ..., Pi(i_q)$.
+        #v(.5em)
+      ]
+    ]
+  )
+]
+
+#slide(
+  title: [$macron(epsilon) = 1\/2$ was not restrictive]
+)[
+  #align(center + horizon)[
+  #table(
+    columns: (0.5fr, 0.5fr),
+    rows: (8em, 4em, 4em, auto),
+    stroke: none,
+    align: center + horizon,
+    fill: (x, y) => if y == 0 { none } else { none },
+    table.header(
+      [
+        #scale(50%)[ #include "./graphics/three_colorable_graph.typ" ]
+      ],
+      [
+        #scale(70%)[ #include "./graphics/four_clique.typ" ]
+      ]
+    ),
+    [There is a \ valid proof $Pi$], [Every $Pi$ is accepted less than \ $text(fill: #red, macron(epsilon)) n^c$ out of $n^c$ times],
+    [
+      #uncover((2, 3))[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $omega(G') = n^c$ ~~~ #v(1em)
+        ]
+      ]
+    ],
+    [
+      #uncover(3)[
+        #box(stroke: 2pt + red)[
+          #v(1em) ~~~ $omega(G') < text(fill: #red, macron(epsilon)) n^c$ ~~~ #v(1em)
         ]
       ]
     ],
@@ -712,134 +785,75 @@
   ]
 ]
 
-/*
-#new-section-slide([Further Results])
+#new-section-slide([Landscape of (in)approximability])
 
 #slide(
-  title: [Stronger PCPs: Håstad's 3-bit PCP],
+  title: [Max-E3Sat]
 )[
-  #redbox(title: "Theorem (Håstad, 2001)")[
+  #bluebox(title: "Max-E3Sat")[
+    #set align(center)
     #set text(size:9mm)
-    For any $delta > 0$, $L in "NP"$, there exists a $"PCP"$-verifier that reads $O(log n)$ random bits, queries exactly *3 bits* of the proof $Pi$, and:
-    - accepts valid proofs with probability $>= 1 - delta$;
-    - accepts invalid proofs with probability $<= 1/2 + delta$.
-
-    Moreover, the accepting condition is a parity test.
+    Given a boolean $3$-CNF formula, find a truth assignment maximizing the number of satisfied clauses.
   ]
+
+  #set text(size:9mm)
+  #v(1em)
+  $
+  (x_1 or x_2 or not x_4) and (x_3 or not x_1 or x_5) and ... and (not x_(256) or not x_(42) or x_8)
+  $
 ]
 
 #slide(
-  title: [Håstad's verifier],
+  title: [Max-E3Sat]
 )[
-  // [da pensare come visualizzarlo]
-
-  The verifier:
-  - reads up to $c log n$ random bits;
-  - chooses positions $i_1, i_2, i_3 in ZZ^+$ and a bit $b in {0, 1}$;
-  - accepts $arrow.double.r.l.long$ $Pi(i_1) plus.o Pi(i_2) plus.o Pi(i_3) = b$
+    #include "./graphics/hardness_3sat.typ"
 ]
 
 #slide(
-  title: [MAX-2LIN],
+  title: [Set Cover]
 )[
-  #bluebox(title: "Problem (MAX-2LIN)")[
-    #set text(size:9mm)
-    Given a system of linear equations over $FF_2$, maximize the number of satisfied equations.
+  #bluebox(title:"Problem (Set-Cover)")[
+    #set align(center)
+    #set text(size: 9mm)
+    Given a collection of subsets $S_1, ..., S_m$ of a set $U$ such that #box[$union_i S_i = U$], find a smallest set $I subset.eq {1, ..., m}$ such that $union_(i in I) S_i = U$.
   ]
 
   #v(1em)
+
+    #include "./graphics/hardness_setcover.typ"
+]
+
+#slide(
+  title: [Vertex Cover]
+)[
+  #bluebox(title:"Problem (Vertex-Cover)")[
+    #set align(center)
+    #set text(size: 9mm)
+    Given a graph $G(V, E)$, find a smallest set of nodes $C subset.eq V$, \ such that for each ${u, v} in E$, either $u in C$ or $v in C$.
+  ]
+
+  #v(1em)
+
   #uncover(2)[
-    *Observation:* A random assigments gives a $1/2$-approximation.
+    #include "./graphics/hardness_vc.typ"
   ]
 ]
 
 #slide(
-  title: [Inapproximability of MAX-2LIN]
+  title: [Max-Cut]
 )[
-  #redbox(title: "Theorem (Håstad)")[
+  #bluebox(title: "Max-Cut")[
+    #set align(center)
     #set text(size:9mm)
-    For any $epsilon > 0$, it is $"NP"$-Hard to $(1/2 + epsilon)$-approximate $"MAX-2LIN"$.
+    Given a graph $G(V, E)$, find a set $S subset.eq V$ maximizing $|E(S, V \\ S)|$.
   ]
 ]
 
 #slide(
-  title: [Proof]
+  title: [Max-Cut]
 )[
-  Fix a $"PCP"$ verifier as the above with a small enough $delta$ for $3"-Colorability"$. On input $G$, to decide whether $G$ is $3$-colorable, consider the system of equation
-  $
-  S := 
-    cases(
-      X_(i_1 (R_1)) plus.o X_(i_2 (R_1)) plus.o X_(i_3 (R_1)) = b(R_1),
-      X_(i_1 (R_2)) plus.o X_(i_2 (R_2)) plus.o X_(i_3 (R_2)) = b(R_2),
-      ...,
-      X_(i_1 (R_(n^c))) plus.o X_(i_2 (R_(n^c))) plus.o X_(i_3 (R_(n^c))) = b(R_(n^c)),
-    )
-  $
-  where $i_1 (R), i_2 (R), i_3 (R)$ are the positions queried by the verifier on random string $R$.
+    #include "./graphics/hardness_maxcut.typ"
 ]
-
-#slide(
-  title: [Proof],
-)[
-  #grid(rows: (0.35fr, 0.4fr, 0.25fr),
-  [
-    #grid(columns: (0.5fr, 0.5fr), [
-      #set align(center)
-      #scale(40%)[
-          #include "./graphics/three_colorable_graph.typ"
-      ]
-    ],
-    [
-      #set align(center)
-      #scale(60%)[
-        #include "./graphics/four_clique.typ"
-      ]
-    ])
-  ],
-  [
-    #grid(columns: (0.5fr, 0.5fr), [
-      #set align(left + top)
-      $G$ is $3$-colorable
-      #set list(marker: ([$arrow.double$],))
-      - there exist a valid proof;
-      - $"MAX-2LIN"(S) >= (1 - delta)|S|$;
-    ],
-    [
-      #set align(left + top)
-      #set list(marker: ([$arrow.double$],))
-      $G$ is not $3$-colorable
-      #set list(marker: ([$arrow.double$],))
-      - every proof is accepted with probability at most $1/2 + delta$
-      - $"MAX-2LIN"(S) <= (1/2 + delta)|S|$
-    ])
-  ],
-  [
-    #v(1em)
-    #uncover(2)[
-      #set align(center)
-      If $(1 - delta)(1/2 + epsilon) > 1/2 + delta$, the scenarios can be told apart.
-      #align(right)[$qed$]
-    ]
-  ])
-]
-
-
-#slide(
-  title: [Inapproximability of MAX-3SAT],
-)[
-  #redbox(title: "Theorem (Håstad)")[
-    #set text(size:9mm)
-    For any $epsilon > 0$, it is $"NP"$-Hard to $(7/8 + epsilon)$-approximate $"MAX-3SAT"$.
-    #v(1em)
-  ]
-]
-
-#slide(
-  title: [Proof]
-)[
-  Gap-preserving reduction (both ways!) between $"MAX-2LIN"$ and $"MAX-3SAT"$.
-]
-*/
 
 #slide(
   title: [(Partial) history of the PCP Theorem],
@@ -862,6 +876,7 @@
   - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
   - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
+  - (2018) Dinur, Steurer -- _Analytical Approach to Parallel Repetition_
 ]
 
 // Main papers
