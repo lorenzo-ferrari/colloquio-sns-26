@@ -75,7 +75,7 @@
   aspect-ratio    : "16-9",
   title           : [The PCP Theorem],
   subtitle        : [and its consequences for the approximation of hard problems],
-  event           : [Scuola Normale Superiore -- 28 Aprile 2026], // lo tengo?
+  event           : [IV Weekend Ortogonale -- Procida, 16 Maggio 2026], // lo tengo?
   short-title     : [],
   short-event     : [], // Scuola Normale Superiore — 04/2026],
   logo-1          : image("pics/solo_logo_SNS_bianco.svg"),
@@ -471,7 +471,7 @@
   title: [Proof],
 )[
   // Enfatizza che qui 3-Col non ha nessun ruolo particolare
-  We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently. For now, assume $macron(epsilon) = 1/2$.
+  We will show how to use an efficient $macron(epsilon)$-approximation of $"Max-Clique"$ to decide $3"-Colorability"$ efficiently. From now on, $macron(epsilon) = 1/2$.
 
   #v(1em)
   #uncover(2)[
@@ -671,6 +671,7 @@
   ]
 ]
 
+/*
 #slide(
   title: [$macron(epsilon) = 1\/2$ was not restrictive]
 )[
@@ -742,6 +743,7 @@
   )
   ]
 ]
+*/
 
 #slide(
   title: [Even stronger inapproximability results],
@@ -817,10 +819,8 @@
     #set text(size: 9mm)
     Given a collection of subsets $S_1, ..., S_m$ of a set $U$ such that #box[$union_i S_i = U$], find a smallest set $I subset.eq {1, ..., m}$ such that $union_(i in I) S_i = U$.
   ]
-
   #v(1em)
-
-    #include "./graphics/hardness_setcover.typ"
+  #include "./graphics/hardness_setcover.typ"
 ]
 
 #slide(
@@ -831,12 +831,8 @@
     #set text(size: 9mm)
     Given a graph $G(V, E)$, find a smallest set of nodes $C subset.eq V$, \ such that for each ${u, v} in E$, either $u in C$ or $v in C$.
   ]
-
   #v(1em)
-
-  #uncover(2)[
-    #include "./graphics/hardness_vc.typ"
-  ]
+  #include "./graphics/hardness_vc.typ"
 ]
 
 #slide(
@@ -847,9 +843,7 @@
     #set text(size:9mm)
     Given a graph $G(V, E)$, find a set $S subset.eq V$ maximizing $|E(S, V \\ S)|$.
   ]
-
   #v(1em)
-
   #include "./graphics/hardness_maxcut.typ"
 ]
 
@@ -871,10 +865,11 @@
 )[
   - (1989) Impagliazzo, Zuckerman -- _How to Recycle Random Bits_
   - (1995) Buss -- _On Gödel's theorems on lengths of proofs II: Lower bounds for recognizing $k$ symbol provability_
+  // - (1995) Goemans, Williamson -- _Improved Approximation Algorithms for Maximum Cut and Satisfiability Problems Using Semidefinite Programming_
   - (2004) Trevisan -- _Inapproximability of Combinatorial Optimization Problems_
   - (2006) Radhakrishnan, Sudan -- _On Dinur’s Proof of the PCP Theorem_
   - (2012) Arora, Barak -- _Computational Complexity: A Modern Approach_
-  - (2018) Dinur, Steurer -- _Analytical Approach to Parallel Repetition_
+  // - (2014) Dinur, Steurer -- _Analytical Approach to Parallel Repetition_
 ]
 
 // Main papers
